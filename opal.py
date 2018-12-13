@@ -20,8 +20,6 @@ from selenium.common.exceptions import NoSuchElementException
 
 ############## TODO: CONVERT TO 2 CLASSES #####################################
 
-# TODO: FORMAT TIME FUNCTION SO THAT IF ITS OVER 24 HOURS IT DOES IT IN DAYS, 3600 SECONDS = HOURS, ETC.
-# TODO: opal_email_archive BETTER DATE USE strftime()
 # TODO: PRINT ASCII ART MAYBE AT THE START
 # TODO: RENAME USED ADJECTIVES CSV TO used_adjectives.csv
 # TODO: RENAME --send AND ITS VARIABLES
@@ -602,7 +600,7 @@ def parse_meal(driver, day, test, dry, send=False):
                    sender="lunchladyopal@gmail.com",
                    password=read_file("password.txt"))
         if not send:
-            create_csv([f"{day}\n{meal.replace(VERSION_NUMBER, '').strip()}"], name="opal_email_archive", override=False)
+            create_csv([f"{datetime.now().strftime("%Y-%m-%d")}\n{meal.replace(VERSION_NUMBER, '').strip()}"], name="opal_email_archive", override=False)
     return True
 
 def clean_meal(meal, day, test, dry, send=False):

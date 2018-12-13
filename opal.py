@@ -27,6 +27,7 @@ from selenium.common.exceptions import NoSuchElementException
 # TODO: MAYBE SWITCH THE RANDOM STUFF IN VERSION_NUMBER TO BE CALCULATED BY FUNCTION
 # TODO: CREATE ADJECTIVE CSV HEADER AS datetime.now().strftime(YEAR-MONTH-DAY)
 # TODO: SHE CANT SEND TWO EMAILS IN ONE DAY (CHECK HER SENT)
+# TODO: VALIDATE EMAILS FUNCTION
 
 EMAILS_DICT = {
     '2020': ["20calhse@kids.udasd.org", "20skeeco@kids.udasd.org", # Searia Calhoun, Connor Skees
@@ -35,7 +36,7 @@ EMAILS_DICT = {
              "20schima@kids.udasd.org", "20wiesto@kids.udasd.org", # Rosie Schiano, Torie Wiest
              "20fausna@kids.udasd.org", "20smitni@kids.udasd.org", # Nathan Faust, Nick Smith
              "20buffni@kids.udasd.org", "20dunkma@kids.udasd.org", # Nick Buffington, Mason Dunkle
-             "20daubka@kids.udasd.org",                            # Kaylob Dauberman
+             "20daubka@kids.udasd.org", "20mattka@kids.udasd.org", # Kaylob Dauberman
             ],
 
     '2019': ["19sampca@kids.udasd.org", "19kingza@kids.udasd.org", # Cailen Sample, Zane King
@@ -120,8 +121,8 @@ ADJ_ADD = ['100% Real Beef', 'Adequate', 'Aged', 'Ambitious', 'Antimicrobial',
            'Stressed', 'Moldy', 'Off-Putting', 'Unpalatable', 'Old', 'Plain',
            'Bland', 'Dry', 'Rad', 'Actually likes talking on the phone',
            'Single Hardworking Mother of 2', 'Proud Conservative Mother of 3',
-           'Widowed', 'ANGERY!!', 'Brooding', 'Redneck', "A little hip hop and country",
-           'Rusty', 'Wicked Awesome', 'Damp', "😎😎😎"
+           'Widowed', 'ANGERY!!', 'Brooding', 'Redneck', 'A little hip hop and country',
+           'Rusty', 'Wicked Awesome', 'Damp', 'Socially Inadequate'
           ]
 
 # Appended to version number during --send
@@ -600,7 +601,7 @@ def parse_meal(driver, day, test, dry, send=False):
                    sender="lunchladyopal@gmail.com",
                    password=read_file("password.txt"))
         if not send:
-            create_csv([f"{datetime.now().strftime("%Y-%m-%d")}\n{meal.replace(VERSION_NUMBER, '').strip()}"], name="opal_email_archive", override=False)
+            create_csv([f"{datetime.now().strftime('%Y-%m-%d')}\n{meal.replace(VERSION_NUMBER, '').strip()}"], name="opal_email_archive", override=False)
     return True
 
 def clean_meal(meal, day, test, dry, send=False):
@@ -776,7 +777,11 @@ def create_csv(data, **kwargs):
     with open(name, mode, newline='') as open_csv:
         write = csv.writer(open_csv, delimiter=',', dialect='excel')
         for row in data:
-            write.writerows([[row]])
+            try:
+                write.writerows([[row]])
+            except UnicodeEncodeError as e:
+                warnings.warn(str(e))
+                write.writerows([[]])
 
     file_size = f"{round(os.path.getsize(name)/1000)}KB"
 

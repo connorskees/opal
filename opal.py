@@ -131,8 +131,11 @@ ADJ_ADD = ['100% Real Beef', 'Adequate', 'Aged', 'Ambitious', 'Antimicrobial',
 ERROR_MESSAGE = "\n\nThis is a debug email. Please reply if you were not expecting it."
 
 # Misc stats at the bottom of the meal
-VERSION_NUMBER = (f"Opal v2.6.1\nCurrent {random.choice(MEMBER_NAMES)}: {len(EMAILS)}\n"
-                  f"Adjectives: {len(ADJ_ADD)}\nLines of Code: {len(open('opal.py').readlines())}")
+VERSION_NUMBER = (f"Opal v2.6.1"
+                  f"\nCurrent {random.choice(MEMBER_NAMES)}: {len(EMAILS)}"
+                  f"\nAdjectives: {len(ADJ_ADD)}"
+                  f"\nLines of Code: {len(open('opal.py').readlines())}"
+                  f"\nFind out more here: https://github.com/ConnorSkees/opal")
 
 def main():
     """main() function for CLI"""
@@ -189,11 +192,10 @@ def main():
 
 
     parser.add_argument("--send", action="store_true",
-                        default=False, help="""Send the email no matter time of day.
-                                               Does not override --test""")
+                        default=False, help="Send a debug email.")
 
     parser.add_argument("--used", action="store_true", default=False,
-                        help="Show the adjectives used yesterday")
+                        help="Show the adjectives used yesterday.")
 
     parser.add_argument("--gui", action="store_true", default=False,
                         help="Show gui when running.")

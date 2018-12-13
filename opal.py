@@ -595,9 +595,9 @@ def parse_meal(driver, day, test, dry, send=False):
         print("-"*80)
         send_email(subject=f"{day} Lunch", text=meal, recipient=EMAILS,
                    sender="lunchladyopal@gmail.com",
-                   password=read_file(r"C:\Users\Connor\Documents\Atom Projects\Python\opal\password.txt"))
+                   password=read_file("password.txt"))
         if not send:
-            create_csv([f"{day}\n{meal.replace(VERSION_NUMBER, '')}"], name="opal_email_archive", override=False)
+            create_csv([f"{day}\n{meal.replace(VERSION_NUMBER, '').strip()}"], name="opal_email_archive", override=False)
     return True
 
 def clean_meal(meal, day, test, dry, send=False):

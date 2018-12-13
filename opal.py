@@ -25,7 +25,6 @@ from selenium.common.exceptions import NoSuchElementException
 # TODO: PRINT ASCII ART MAYBE AT THE START
 # TODO: RENAME USED ADJECTIVES CSV TO used_adjectives.csv
 # TODO: RENAME --send AND ITS VARIABLES
-# TODO: NO WIFI CONTINGENCY (THIS ACTUALLY MIGHT ALREADY EXIST WITH WHILE LOOPS, BUT TEST)
 # TODO: --force [FORCE] TO FORCE ADJECTIVE(S) THE FOLLOWING DAY. nargs="+"
 # TODO: MAYBE SWITCH THE RANDOM STUFF IN VERSION_NUMBER TO BE CALCULATED BY FUNCTION
 # TODO: CREATE ADJECTIVE CSV HEADER AS datetime.now().strftime(YEAR-MONTH-DAY)
@@ -532,12 +531,16 @@ def format_seconds(seconds, rounding=3):
         return f"{round(seconds/(hour), rounding)} hours"
     elif day <= seconds < year:
         return f"{round(seconds/(day), rounding)} days"
-    elif year <= seconds:
-        return f"{round(seconds/(60*60*24*365), rounding)} years"
+    return f"{round(seconds/(60*60*24*365), rounding)} years"
 
 def login(driver):
     """Gets past bot page on website"""
+    counter = 0
     while True:
+        counter += 1
+        if counter >= 10:
+            counter = 0
+            driver.refresh()
         try:
             driver.execute_script("arguments[0].click();",
                                   driver.find_element_by_css_selector("body main div input"))
@@ -817,10 +820,10 @@ def read_csv(csv_file, flat=False):
 
 def read_file(file_path, split_char=None):
     with open(file_path, mode='r') as file:
-        x = file.read()
+        data = file.read()
         if split_char:
-            x = x.split(split_char)
-        return x
+            data = data.split(split_char)
+        return data
 
 if __name__ == "__main__":
     main()

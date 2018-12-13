@@ -10,9 +10,6 @@ Python 3.x
 
 ## Usage
 #### Basic
-##### Positional Arguments:
-* None right now :)
-
 ##### Optional Arguments:
 * `-d, --driver DRIVER` The path to your chrome web driver.
 * `--time TIME` Time for email to be sent. Works on military time (23 is 11pm). Default is 7.

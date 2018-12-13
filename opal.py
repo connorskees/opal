@@ -59,7 +59,7 @@ EMAILS_DICT = {
 
     'other': ["connor1skees@gmail.com",],                          # Connor Skees (personal)
 
-    'debug': ["20skeeco@kids.udasd.org", "19kingza@kids.udasd.org"]# Used during --send
+    'debug': ["20skeeco@kids.udasd.org"]                           # Used during --send
 }
 
 # Randomly adds one of these if "Holiday Dinner", "Tasty Bites", or "Food Fusion" is in meal
@@ -594,7 +594,8 @@ def parse_meal(driver, day, test, dry, send=False):
         print(meal)
         print("-"*80)
         send_email(subject=f"{day} Lunch", text=meal, recipient=EMAILS,
-                   sender="lunchladyopal@gmail.com", password="zane_lieks_mudkipZ_and_p3p3LOL")
+                   sender="lunchladyopal@gmail.com",
+                   password=read_file(r"C:\Users\Connor\Documents\Atom Projects\Python\opal\password.txt"))
         if not send:
             create_csv([f"{day}\n{meal.replace(VERSION_NUMBER, '')}"], name="opal_email_archive", override=False)
     return True
@@ -811,6 +812,13 @@ def read_csv(csv_file, flat=False):
     else:
         warnings.warn(f"Could not locate '{csv_file}'")
         return [[]] # it shouldn't prevent the email even if it can't find the file
+
+def read_file(file_path, split_char=None):
+    with open(file_path, mode='r') as file:
+        x = file.read()
+        if split_char:
+            x = x.split(split_char)
+        return x
 
 if __name__ == "__main__":
     main()

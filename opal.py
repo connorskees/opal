@@ -276,18 +276,17 @@ class Opal:
 
         validate_emails(emails_dict)
 
-        self.emails = set(emails_dict['2020']
-                          + emails_dict['2019']
-                          + emails_dict['teachers']
-                          + emails_dict['other'])
-        self.emails = emails_dict['debug']
+        self.emails = set(emails_dict['2020'] +
+                          emails_dict['2019'] +
+                          emails_dict['teachers'] +
+                          emails_dict['other'])
 
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
         self.version_number = (f"\nOpal v3.0.0"
                                f"\nCurrent {self.random_member_name}: {len(self.emails)}"
                                f"\nAdjectives: {len(self.adjectives_add)}"
-                               f"\nLines of Code: {len(open('opal_as_classes.py').readlines())}"
+                               f"\nLines of Code: {len(open('opal.py').readlines())}"
                                f"\nFind out more here: https://github.com/ConnorSkees/opal")
 
         if self.is_test_email:

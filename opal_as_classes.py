@@ -337,6 +337,7 @@ class Opal:
 
     @property
     def random_member_name(self):
+        """Return a random member name"""
         return random.choice(self.member_names)
 
     @property
@@ -709,6 +710,7 @@ def test_meal(opal: Opal):
     print("-"*80)
 
 def validate_emails(emails_dict):
+    """Validate emails in emails_dict. Prints emails with issues"""
     length_exceptions = ("19foxem@kids.udasd.org", "19deibsha@kids.udasd.org")
 
     for key, value in emails_dict.items():

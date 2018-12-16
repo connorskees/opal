@@ -22,5 +22,6 @@ Python 3.x
 * `--custom-date [CUSTOM_DATE ...]` Print a custom date's meal to console instead of sending an email. Format: YYYY MM DD Example: --custom-date 2019 01 17
 * `--date-range [DATE_RANGE ...]` Print the meal for all dates within the range to console instead of sending an email. Format: YYYY MM DD YYYY MM DD Example: --date-range 2019 01 17 2019 01 20
 * `--send` Send a debug email.
+* `--force [FORCE ...]` Force adjectives passed to show up in meal.
 * `--used` Show the adjectives used yesterday.
 * `--gui` Show gui when running.

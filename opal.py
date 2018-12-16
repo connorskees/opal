@@ -9,6 +9,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import itertools
 import os
+from pprint import pprint
 import random
 import smtplib
 import sys

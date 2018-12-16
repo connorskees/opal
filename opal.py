@@ -17,6 +17,7 @@ import warnings
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
+# TODO: better handling of validate_emails
 
 class Opal:
     """Visits link; finds, validates, and cleans meal"""
@@ -224,7 +225,7 @@ class Opal:
                                'Damp', 'Socially Inadequate'
                               )
 
-        emails_dict = {
+        self.emails_dict = {
             '2020': ["20calhse@kids.udasd.org", # Searia Calhoun
                      "20skeeco@kids.udasd.org", # Connor Skees
                      "20etzwem@kids.udasd.org", # Emily Etzweiler
@@ -273,6 +274,7 @@ class Opal:
 
             'debug': ["20skeeco@kids.udasd.org"]# Used during --send
         }
+        emails_dict = self.emails_dict
 
         validate_emails(emails_dict)
 
@@ -614,6 +616,9 @@ def main():
     parser.add_argument("--used", "--show-used", action="store_true", default=False,
                         dest="show_used", help="Show the adjectives used yesterday.")
 
+    parser.add_argument("--emails", "--show-emails", action="store_true", default=False,
+                        dest="show_emails", help="Print email dict to console.")
+
     parser.add_argument("--test-adjectives", action="store_true", default=False,
                         dest="test_adjectives", help="Test all adjectives against noun.")
 
@@ -636,6 +641,9 @@ def handle_args(args):
             quit()
         elif args.test_adjectives:
             opal.test_adjective_add()
+            quit()
+        elif args.show_emails:
+            pprint(opal.emails_dict)
             quit()
 
         if not opal.is_test:

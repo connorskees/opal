@@ -18,9 +18,6 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-# TODO: PRINT ASCII ART MAYBE AT THE START
-
-
 class Opal:
     """Visits link; finds, validates, and cleans meal"""
     def __init__(self, kwargs):
@@ -384,7 +381,8 @@ class Opal:
         time.sleep(int(self.day[:2])/18)
 
         url_date = self.now.strftime("%Y-%m-%d")
-        if self.driver.current_url != f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}":
+        new_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
+        if self.driver.current_url != new_url:
             self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
             self.driver.get(self.url)
 
@@ -489,6 +487,7 @@ class Opal:
         """Randomly assigns adjectives to each food item"""
         skip = ("or", "Recipe of the Month",) + self.no_lunch_nouns + self.special_event_nouns
         f_adj = self.forced_adjectives
+        adjectives_add = self.adjectives_add
 
         # add adjective
         if not self.is_dry:
@@ -498,9 +497,9 @@ class Opal:
                 while True:
                     if value in skip:
                         break
-                    choice = random.choice(self.adjectives_add)
+                    choice = random.choice(adjectives_add)
                     if choice in adjectives_used + adjectives_yesterday:
-                        if len(adjectives_used)+len(adjectives_yesterday) == len(self.adjectives_add):
+                        if len(adjectives_used)+len(adjectives_yesterday) == len(adjectives_add):
                             warnings.warn("There are more terms than adjectives")
                             break
                         continue
@@ -513,12 +512,10 @@ class Opal:
             # then, it removes extra adjectives and zips with already used adjs
             # replaces the already used adjectives and re splits
             if f_adj and adjectives_used:
-                f_adj = [adj for adj in f_adj if adj in self.adjectives_add]
-                if len(f_adj) > len(adjectives_used):
-                    f_adj = f_adj[:len(adjectives_used)]
+                f_adj = [adj for adj in f_adj if adj in adjectives_add][:len(adjectives_used)]
                 self.meal = "\n".join(self.meal)
-                for u, f in zip(adjectives_used, f_adj):
-                    self.meal = self.meal.replace(u, f)
+                for used, forced in zip(adjectives_used, f_adj):
+                    self.meal = self.meal.replace(used, forced)
                 self.meal = self.meal.split("\n")
 
             if adjectives_used and not self.is_test and not self.is_test_email and not self.is_dry:
@@ -584,7 +581,8 @@ def main():
                              Basically a shortcut subclass of --custom-date but it's
                              always 1 day in the future.""")
 
-    parser.add_argument("-y", "--yesterday", action="store_true", default=False, dest="is_yesterday",
+    parser.add_argument("-y", "--yesterday", action="store_true", default=False,
+                        dest="is_yesterday",
                         help="""Print yesterday's meal to console instead of sending an email.
                              Basically a shortcut subclass of --custom-date but it's
                              always 1 day in the past.""")
@@ -616,8 +614,8 @@ def main():
     parser.add_argument("--used", "--show-used", action="store_true", default=False,
                         dest="show_used", help="Show the adjectives used yesterday.")
 
-    parser.add_argument("--test-adjectives", action="store_true", default=False, dest="test_adjectives",
-                        help="Test all adjectives against noun.")
+    parser.add_argument("--test-adjectives", action="store_true", default=False,
+                        dest="test_adjectives", help="Test all adjectives against noun.")
 
     parser.add_argument("--gui", action="store_true", default=False, dest="gui",
                         help="Show gui when running.")
@@ -719,7 +717,8 @@ def validate_emails(emails_dict):
                 if not email.startswith(key[2:]):
                     print(f"\nWARNING --|{email}|-- does not match the year\n")
                 elif len(email) != 23 and email not in length_exceptions:
-                    print(f"\nWARNING --|{email}|-- has an irregular length and is not listed as an exception\n")
+                    print((f"\nWARNING --|{email}|-- has an irregular length and"
+                           " is not listed as an exception\n"))
                 elif not email.endswith("@kids.udasd.org"):
                     print(f"\nWARNING --|{email}|-- is not a kids.udasd.org email\n")
 
@@ -727,7 +726,8 @@ def validate_emails(emails_dict):
                 if not email.endswith("udasd.org"):
                     print(f"\nWARNING --|{email}|-- is not a udasd.org email\n")
                 elif len(email) != 16 and email not in length_exceptions:
-                    print(f"\nWARNING --|{email}|-- has an irregular length and is not listed as an exception\n")
+                    print((f"\nWARNING --|{email}|-- has an irregular length and"
+                           " is not listed as an exception\n"))
 
 def format_seconds(seconds, rounding=3):
     """

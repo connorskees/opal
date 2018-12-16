@@ -18,11 +18,8 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-############## TODO: CONVERT TO 2 CLASSES #####################################
-
 # TODO: PRINT ASCII ART MAYBE AT THE START
 # TODO: --force [FORCE] TO FORCE ADJECTIVE(S) THE FOLLOWING DAY. nargs="+"
-# TODO: MAYBE SWITCH THE RANDOM STUFF IN VERSION_NUMBER TO BE CALCULATED BY FUNCTION
 # TODO: SHE CANT SEND TWO EMAILS IN ONE DAY (CHECK HER SENT)
 
 
@@ -293,7 +290,7 @@ class Opal:
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
         self.version_number = (f"\nOpal v3.0.0"
-                               f"\nCurrent {random.choice(self.member_names)}: {len(self.emails)}"
+                               f"\nCurrent {self.random_member_name}: {len(self.emails)}"
                                f"\nAdjectives: {len(self.adjectives_add)}"
                                f"\nLines of Code: {len(open('opal_as_classes.py').readlines())}"
                                f"\nFind out more here: https://github.com/ConnorSkees/opal")
@@ -342,6 +339,10 @@ class Opal:
 
         driver = webdriver.Chrome(self.driver_path, chrome_options=chrome_options)
         return driver
+
+    @property
+    def random_member_name(self):
+        return random.choice(self.member_names)
 
     @property
     def time_ran(self):

@@ -19,8 +19,6 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 # TODO: PRINT ASCII ART MAYBE AT THE START
-# TODO: --force [FORCE] TO FORCE ADJECTIVE(S) THE FOLLOWING DAY. nargs="+"
-# TODO: SHE CANT SEND TWO EMAILS IN ONE DAY (CHECK HER SENT)
 
 
 class Opal:
@@ -490,8 +488,7 @@ class Opal:
     def add_adjectives(self):
         """Randomly assigns adjectives to each food item"""
         skip = ("or", "Recipe of the Month",) + self.no_lunch_nouns + self.special_event_nouns
-
-        # self.forced_adjectives = [adj for adj in self.forced_adjectives if adj in self.adjectives_add]
+        f_adj = self.forced_adjectives
 
         # add adjective
         if not self.is_dry:
@@ -510,6 +507,19 @@ class Opal:
                     self.meal[index] = choice + " " + value
                     adjectives_used.append(choice)
                     break
+
+            # so this block of code is a real mess and needs to be refactored
+            # first, it removes adjectives not in the normal list
+            # then, it removes extra adjectives and zips with already used adjs
+            # replaces the already used adjectives and re splits
+            if f_adj and adjectives_used:
+                f_adj = [adj for adj in f_adj if adj in self.adjectives_add]
+                if len(f_adj) > len(adjectives_used):
+                    f_adj = f_adj[:len(adjectives_used)]
+                self.meal = "\n".join(self.meal)
+                for u, f in zip(adjectives_used, f_adj):
+                    self.meal = self.meal.replace(u, f)
+                self.meal = self.meal.split("\n")
 
             if adjectives_used and not self.is_test and not self.is_test_email and not self.is_dry:
                 timestamp = datetime.now().strftime('%Y-%m-%d')

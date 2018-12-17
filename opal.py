@@ -22,24 +22,36 @@ from selenium.common.exceptions import NoSuchElementException
 
 class Opal:
     """Visits link; finds, validates, and cleans meal"""
-    def __init__(self, kwargs):
+    def __init__(self,
+                 driver_path,
+                 start_time,
+                 is_dry,
+                 is_test,
+                 is_tomorrow,
+                 is_yesterday,
+                 add_days,
+                 custom_date,
+                 forced_adjectives,
+                 date_range,
+                 is_test_email,
+                 gui):
+
         self.start = time.time()
 
-        self.driver_path = kwargs["driver_path"]
-        self.start_time = kwargs["start_time"]
-        self.is_dry = kwargs["is_dry"]
-        self.is_test = kwargs["is_test"]
-        self.add_days = kwargs["add_days"]
-        self.custom_date = kwargs["custom_date"]
-        self.forced_adjectives = kwargs["forced_adjectives"]
-        self.date_range = kwargs["date_range"]
-        self.is_test_email = kwargs["is_test_email"]
-        self.show_used = kwargs["show_used"]
-        self.gui = kwargs["gui"]
+        self.driver_path = driver_path
+        self.start_time = start_time
+        self.is_dry = is_dry
+        self.is_test = is_test
+        self.add_days = add_days
+        self.custom_date = custom_date
+        self.forced_adjectives = forced_adjectives
+        self.date_range = date_range
+        self.is_test_email = is_test_email
+        self.gui = gui
 
-        if kwargs["is_tomorrow"]:
+        if is_tomorrow:
             self.add_days = 1
-        elif kwargs["is_yesterday"]:
+        elif is_yesterday:
             self.add_days = -1
 
         self.meal = ""
@@ -635,7 +647,12 @@ def handle_args(args):
     Calls the functions real_meal(), test_meal(), meal_range() based on CLI input
     """
     try:
-        opal = Opal(kwargs=vars(args))
+        opal_args = vars(args).copy()
+        print(opal_args)
+        opal_args.pop("show_used")
+        opal_args.pop("test_adjectives")
+        opal_args.pop("show_emails")
+        opal = Opal(**opal_args)
 
         if args.show_used:
             print_used()

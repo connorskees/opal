@@ -334,19 +334,19 @@ class Opal:
 
     def start_driver(self):
         """Creates the driver variable and starts selenium"""
-        chrome_options = webdriver.ChromeOptions()
+        options = webdriver.ChromeOptions()
         prefs = {'profile.managed_default_content_settings.images':2, 'disk-cache-size':4096}
-        chrome_options.add_experimental_option("prefs", prefs)
+        options.add_experimental_option("prefs", prefs)
 
         # run as headless
         if not self.gui:
-            chrome_options.add_argument('--headless')
-            chrome_options.add_argument('--disable-gpu')
-            chrome_options.add_argument('--no-sandbox')
-            chrome_options.add_argument('--window-size=1280,800')
-            chrome_options.add_argument('log-level=2')
+            options.add_argument('--headless')
+            options.add_argument('--disable-gpu')
+            options.add_argument('--no-sandbox')
+            options.add_argument('--window-size=1280,800')
+            options.add_argument('log-level=2')
 
-        driver = webdriver.Chrome(self.driver_path, chrome_options=chrome_options)
+        driver = webdriver.Chrome(self.driver_path, options=options)
         return driver
 
     @property

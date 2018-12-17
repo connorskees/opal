@@ -54,6 +54,8 @@ class Opal:
         elif is_yesterday:
             self.add_days = -1
 
+        self.line = "-"*80
+
         self.meal = ""
         self.driver = "" # defined in start_driver()
 
@@ -454,10 +456,8 @@ class Opal:
 
     def test_adjective_add(self, noun="Milk"):
         """Print every adjective with a noun to test for whitespace, spelling, etc."""
-        print("-"*80)
-        for adj in self.adjectives_add:
-            print(f"{adj} {noun}")
-        print("-"*80)
+        noun_w_adj = '\n'.join(f'{adj} {noun}' for adj in self.adjectives_add)
+        print(f"{self.line}\n{noun_w_adj}\n{self.line}")
 
     def exit_driver(self):
         self.driver.quit()
@@ -543,7 +543,6 @@ def handle_args(args):
     """
     try:
         opal_args = vars(args).copy()
-        print(opal_args)
         opal_args.pop("show_used")
         opal_args.pop("test_adjectives")
         opal_args.pop("show_emails")
@@ -584,9 +583,7 @@ def real_meal(opal: Opal):
             continue
 
         if opal.is_weekend:
-            print("-"*80)
-            print("No lunch: Weekend\n(no email)")
-            print("-"*80)
+            print(f"{opal.line}\nNo lunch: Weekend\n(no email)\n{opal.line}")
             if opal.is_test_email:
                 break
             time.sleep(60*60)
@@ -600,9 +597,7 @@ def real_meal(opal: Opal):
         opal.clean_meal()
         opal.send_email()
         print(f"\nEmail successfully sent at {datetime.now()}")
-        print("-"*80)
-        print(opal.meal)
-        print("-"*80)
+        print(f"{opal.line}\n{opal.meal}\n{opal.line}")
         if opal.is_test_email:
             break
         timestamp = datetime.now().strftime('%Y-%m-%d')
@@ -614,20 +609,18 @@ def real_meal(opal: Opal):
 def test_meal(opal: Opal):
     """Prints meal to console"""
     if opal.is_weekend:
-        print("-"*80)
-        print("No lunch: Weekend")
-        print("-"*80)
+        print(f"{opal.line}\nNo lunch: Weekend\n{opal.line}")
         quit()
 
     opal.login()
-    print("-"*80)
+    print(opal.line)
     opal.find_meal()
     while not opal.validate_meal():
         print("Invalid meal.. restarting")
         opal.find_meal()
     opal.clean_meal()
     print(opal.meal)
-    print("-"*80)
+    print(opal.line)
 
 def validate_emails(emails_dict: dict):
     """Validate emails in emails_dict. Prints emails with issues"""
@@ -693,10 +686,9 @@ def print_used():
     """
     Print yesterday's adjectives to console
     """
-    print("-"*80)
-    for adjective in sorted(read_csv("used_adjectives.csv", flat=True)):
-        print(adjective)
-    print("-"*80)
+    adjectives = "\n".join(adj for adj in sorted(read_csv("used_adjectives.csv", flat=True)))
+    line = "-"*80
+    print(f"{line}\n{adjectives}\n{line}")
 
 def create_csv(data, **kwargs):
     """

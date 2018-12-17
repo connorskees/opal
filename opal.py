@@ -567,6 +567,9 @@ class Opal:
             print(f"{adj} {noun}")
         print("-"*80)
 
+    def exit_driver(self):
+        self.driver.quit()
+
 def main():
     """main() function for CLI"""
     parser = argparse.ArgumentParser()

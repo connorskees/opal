@@ -21,7 +21,7 @@ from selenium.common.exceptions import NoSuchElementException
 # TODO: better handling of validate_emails
 
 class Opal:
-    """Visits link; finds, validates, and cleans meal"""
+    """Visits menu hosted online; finds, validates, and cleans meal"""
     def __init__(self,
                  driver_path,
                  start_time,
@@ -179,16 +179,12 @@ class Opal:
             'other': ["connor1skees@gmail.com", # Connor Skees (personal)
                      ],
 
-            'debug': ["20skeeco@kids.udasd.org"]# Used during --send
-        }
-        emails_dict = self.emails_dict
-
-        validate_emails(emails_dict)
-
-        self.emails = set(emails_dict['2020'] +
-                          emails_dict['2019'] +
-                          emails_dict['teachers'] +
-                          emails_dict['other'])
+            'debug': ["20skeeco@kids.udasd.org"]}# Used during --send
+        validate_emails(self.emails_dict)
+        self.emails = set(self.emails_dict['2020'] +
+                          self.emails_dict['2019'] +
+                          self.emails_dict['teachers'] +
+                          self.emails_dict['other'])
 
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
@@ -200,14 +196,13 @@ class Opal:
 
         if self.is_test_email:
             self.version_number += debug_email_message
-            self.emails = emails_dict['debug']
+            self.emails = self.emails_dict['debug']
 
         self.is_test = any((self.is_test, self.add_days, self.custom_date, self.date_range))
 
-        now = self.now
-        self.day = now.strftime("%d %a")
+        self.day = self.now.strftime("%d %a")
 
-        url_date = now.strftime("%Y-%m-%d")
+        url_date = self.now.strftime("%Y-%m-%d")
         self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
 
         self.is_weekend = True if self.day.endswith(("Sat", "Sun")) else False
@@ -460,6 +455,7 @@ class Opal:
         print(f"{self.line}\n{noun_w_adj}\n{self.line}")
 
     def exit_driver(self):
+        """Exit driver (really only used to exit during unit testing)"""
         self.driver.quit()
 
 def main():

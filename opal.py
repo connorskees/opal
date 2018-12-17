@@ -57,114 +57,6 @@ class Opal:
         self.meal = ""
         self.driver = "" # defined in start_driver()
 
-        food = [
-            'Apple Slices',
-            'Applesauce',
-            'BBQ Rib Sandwich',
-            'Baked Beans',
-            'Baked Rigatoni',
-            'Beef & Cheese Nachos',
-            'Beef & Cheese Soft Tacos',
-            'Beef Gyro w/Lettuce, Tomato & Sauce',
-            'Beef Gyro with Lettuce, Tomato & Sauce',
-            'Bite Sized Popcorn Chicken with Fresh Sliced Bread',
-            'Blended Mixed Vegetables',
-            'Bold Black Beans',
-            'Bread Slice',
-            'Broccoli Florets',
-            'Buffalo Chicken Dipper with Fresh Sliced Bread',
-            'Buffalo Chicken Grilled Cheese',
-            'Cheeseburger',
-            'Chicken & Cheese Quesadilla with Salsa',
-            'Chicken Chips',
-            'Chicken Egg Roll',
-            'Chili Cheese Bowl with Rice',
-            'Chilled Applesauce',
-            'Cinnamon Apple Slices',
-            'Citrusy Mandarin Oranges',
-            'Corn Dog Nuggets',
-            'Creamy Baked Scalloped Potatoes',
-            'Creamy Mashed Potatoes with Gravy',
-            'Crisp Baby Carrots',
-            'Crisp Tater Tots',
-            'Crispy Chicken Tenders',
-            'Diced Pears',
-            'Dinner Roll',
-            'Early Dismissal-No Lunch',
-            'Egg Noodles',
-            'Flavorful Vegetarian Beans',
-            'Food Fusion',
-            'French Toast Sticks & Sausage',
-            'Fresh Sliced Bread',
-            'Freshly Baked Italian Dunkers',
-            'Garden Salad',
-            'Garlic Breadstick',
-            'Garlic Knots',
-            'Golden Corn',
-            'Golden Diced Carrots',
-            'Grilled Cheese Sandwich',
-            'Ham and Cheese on a Pretzel Bun',
-            'Holiday Break - No School',
-            'Holiday Break-No School',
-            'Holiday Dinner',
-            'Homemade Lasagna with Fresh Bread',
-            'Homestyle Refried Beans',
-            'Juicy Apple Slices',
-            'Juicy Cheeseburger on a Bun',
-            'Juicy Sliced Peaches',
-            'Macaroni and Cheese w/Sliced Bread',
-            'Meatball & Mozzarella Hoagie',
-            'Meatball Hoagie',
-            'Memorial Day - No School',
-            'Milk',
-            "New Year's Day - No School",
-            'New Years Eve - No School',
-            'No School',
-            'No School for MS & HS-Parent Teacher Conferences',
-            'No School-Act 80 Day',
-            'No School-Faculty In-service',
-            'No School-Parent Faculty Conferences',
-            'Orange Kissed Chicken Bowl',
-            'Pasta & Homemade Meat Sauce with Fresh Bread',
-            'Pepperoni Roll',
-            'Philly Cheesesteak Sub',
-            'Popcorn Chicken Bowl Waffle Cone',
-            'Popcorn Chicken Bowl w/Fresh Sliced Bread',
-            'Pork BBQ Sandwich',
-            'Pork BBQ on a Bun',
-            'Pulled Pork BBQ on Bun',
-            'Refreshing Fruit Cocktail',
-            'Roasted Turkey',
-            'Salisbury Steak with Gravy & Sliced Bread',
-            'Savory Brown Rice',
-            'Seasoned Green Beans',
-            'Sliced Ham',
-            'Sliced Luscious Strawberries',
-            'Soft Beef & Cheese Tacos',
-            'Steamed Broccoli',
-            'Steamed Carrot Coins',
-            'Steamed Carrots',
-            'Stewed Tomatoes',
-            'Stir-Fry Chicken & Vegetables',
-            'Strawberries',
-            'Stuffing',
-            'Swedish Meatballs over Noodles',
-            'Sweet Peas',
-            'Tangy BBQ Rib Sandwich',
-            'Tasty Bites',
-            'Thanksgiving - No School',
-            'Thanksgiving Meal',
-            'There is currently nothing on the menu today.',
-            'Tomato Soup',
-            'Tropical Pineapple Tidbits',
-            'Turkey Pot Roast w/Sliced Bread',
-            'Walking Taco w/ Nacho Doritos',
-            'Walking Taco with Beef & Cheese',
-            'Walking Taco with Nacho Chips & Fresh Sliced Bread',
-            'Warm Apple Crisp',
-            'or']
-        del food # unused
-
         self.special_events = ("Holiday Dinner", "Tasty Bites", "Food Fusion")
         self.special_event_nouns = ("You", "Your first born child", "Alex Jones", "Sarah Palin",)
 
@@ -421,7 +313,7 @@ class Opal:
         meal = self.meal
         driver = self.driver
 
-        if meal.strip() == f"{day}\nLoading Menu" or not meal.replace(" ", "").replace("\n", ""):
+        if meal.strip() == f"{day}\nLoading Menu" or not meal.strip():
             driver.refresh()
             time.sleep(2)
             return False
@@ -435,7 +327,7 @@ class Opal:
 
         elif "There is currently nothing on the menu today." in meal:
             print("The lunch hasn't been planned out this far in the future.\n(no email)")
-            quit()
+            return False
         return True
 
     def clean_meal(self):

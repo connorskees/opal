@@ -369,27 +369,27 @@ class Opal:
             return datetime(*self.custom_date)
         return current_time
 
-    def login(self):
+    def login(self, verbose=True):
         """Gets past bot page on website"""
         self.driver = self.start_driver()
         driver = self.driver
         driver.get(self.url)
         counter = 0
-        while True:
+        while self.driver.current_url != self.url:
             counter += 1
             if counter >= 10:
                 counter = 0
                 driver.refresh()
+                time.sleep(.5)
             try:
-                driver.execute_script("arguments[0].click();",
-                                      driver.find_element_by_css_selector("body main div input"))
+                terms_checkbox = driver.find_element_by_css_selector("body main div input")
+                driver.execute_script("arguments[0].click();", terms_checkbox)
                 driver.find_element_by_css_selector("button.primary").click()
                 break
             except NoSuchElementException:
-                print("NoSuchElementException in login()")
+                if verbose:
+                    print("NoSuchElementException in login()")
                 continue
-            else:
-                break
 
     def find_meal(self):
         """Find the meal on the webpage"""

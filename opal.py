@@ -200,8 +200,6 @@ class Opal:
 
         self.is_test = any((self.is_test, self.add_days, self.custom_date, self.date_range))
 
-        self.day = self.now.strftime("%d %a")
-
         url_date = self.now.strftime("%Y-%m-%d")
         self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
 
@@ -233,7 +231,7 @@ class Opal:
             options.add_argument('--disable-gpu')
             options.add_argument('--no-sandbox')
             options.add_argument('--window-size=1280,800')
-            options.add_argument('log-level=2')
+            options.add_argument('--log-level=3')
 
         driver = webdriver.Chrome(self.driver_path, options=options)
         return driver
@@ -257,6 +255,10 @@ class Opal:
         elif self.custom_date:
             return datetime(*self.custom_date)
         return current_time
+
+    @property
+    def day(self):
+        return self.now.strftime("%d %a")
 
     def login(self, verbose=True):
         """Gets past bot page on website"""
@@ -284,11 +286,14 @@ class Opal:
         """Find the meal on the webpage"""
         time.sleep(int(self.day[:2])/18)
 
-        url_date = self.now.strftime("%Y-%m-%d")
-        new_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
-        if self.driver.current_url != new_url:
-            self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
-            self.driver.get(self.url)
+        old_date = datetime.strptime(self.url ,"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/%Y-%m-%d")
+        if old_date.month != self.now.month:
+            url_date = self.now.strftime("%Y-%m-%d")
+            new_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
+            if self.driver.current_url != new_url:
+                self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
+                self.driver.get(self.url)
+                time.sleep(int(self.day[:2])/18)
 
         while True:
             try:

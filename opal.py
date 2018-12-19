@@ -188,7 +188,7 @@ class Opal:
 
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
-        self.version_number = (f"\nOpal v3.0.0"
+        self.version_number = (f"\nOpal v3.1.0"
                                f"\nCurrent {self.random_member_name}: {len(self.emails)}"
                                f"\nAdjectives: {len(self.adjectives_add)}"
                                f"\nLines of Code: {len(open('opal.py').readlines())}"
@@ -258,6 +258,7 @@ class Opal:
 
     @property
     def day(self):
+        """Return the str day"""
         return self.now.strftime("%d %a")
 
     def login(self, verbose=True):
@@ -286,7 +287,7 @@ class Opal:
         """Find the meal on the webpage"""
         time.sleep(int(self.day[:2])/18)
 
-        old_date = datetime.strptime(self.url ,"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/%Y-%m-%d")
+        old_date = datetime.strptime(self.url, "https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/%Y-%m-%d")
         if old_date.month != self.now.month:
             url_date = self.now.strftime("%Y-%m-%d")
             new_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"

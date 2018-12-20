@@ -18,7 +18,10 @@ import warnings
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
+
 # TODO: better handling of validate_emails
+# TODO: holiday adjectives
+
 
 class Opal:
     """Visits menu hosted online; finds, validates, and cleans meal"""
@@ -177,6 +180,7 @@ class Opal:
                         ],
 
             'other': ["connor1skees@gmail.com", # Connor Skees (personal)
+                      "bettyraup@gmail.com",    # Betty Raup (personal)
                      ],
 
             'debug': ["20skeeco@kids.udasd.org"]}# Used during --send

@@ -132,7 +132,8 @@ class Opal:
                                'Proud Conservative Mother of 3', 'Widowed',
                                'ANGERY!!', 'Brooding', 'Redneck',
                                'A little hip hop and country', 'Rusty', 'Wicked Awesome',
-                               'Damp', 'Socially Inadequate'
+                               'Damp', 'Socially Inadequate', 'Wet', 'Musty',
+                               'Crusty',
                               )
 
         self.emails_dict = {

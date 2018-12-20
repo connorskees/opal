@@ -261,6 +261,10 @@ class Opal:
         """Return the str day"""
         return self.now.strftime("%d %a")
 
+    @property
+    def timestamp(self):
+        return datetime.now().strftime('%Y-%m-%d')
+
     def login(self, verbose=True):
         """Gets past bot page on website"""
         self.driver = self.start_driver()
@@ -429,8 +433,7 @@ class Opal:
                 self.meal = self.meal.split("\n")
 
             if adjectives_used and not self.is_test and not self.is_test_email and not self.is_dry:
-                timestamp = datetime.now().strftime('%Y-%m-%d')
-                create_csv(data=[timestamp]+adjectives_used,
+                create_csv(data=[self.timestamp]+adjectives_used,
                            name="used_adjectives.csv",
                            override=True,
                            verbose=False)
@@ -602,8 +605,7 @@ def real_meal(opal: Opal):
         print(f"{opal.line}\n{opal.meal}\n{opal.line}")
         if opal.is_test_email:
             break
-        timestamp = datetime.now().strftime('%Y-%m-%d')
-        create_csv([f"{timestamp}\n{opal.meal.replace(opal.version_number, '').strip()}"],
+        create_csv([f"{opal.timestamp}\n{opal.meal.replace(opal.version_number, '').strip()}"],
                    name="opal_email_archive", override=False, verbose=False)
         print("Sleeping for 1 hour...")
         time.sleep(60*60)

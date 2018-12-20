@@ -469,7 +469,10 @@ class Opal:
 
     def exit_driver(self):
         """Exit driver (really only used to exit during unit testing)"""
-        self.driver.quit()
+        if self.driver:
+            self.driver.quit()
+            return True
+        return False
 
 def main():
     """main() function for CLI"""

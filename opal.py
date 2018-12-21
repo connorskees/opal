@@ -193,7 +193,7 @@ class Opal:
 
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
-        self.version_number = (f"\nOpal v3.1.0"
+        self.version_number = (f"\nOpal v3.2.0"
                                f"\nCurrent {self.random_member_name}: {len(self.emails)}"
                                f"\nAdjectives: {len(self.adjectives_add)}"
                                f"\nLines of Code: {len(open('opal.py').readlines())}"
@@ -283,8 +283,10 @@ class Opal:
                 driver.refresh()
                 time.sleep(.5)
             try:
-                terms_checkbox = driver.find_element_by_css_selector("body main div input")
-                driver.execute_script("arguments[0].click();", terms_checkbox)
+                # there used to be a terms and services checkbox
+                # below is the code for it
+                # terms_checkbox = driver.find_element_by_css_selector("body main div input")
+                # driver.execute_script("arguments[0].click();", terms_checkbox)
                 driver.find_element_by_css_selector("button.primary").click()
                 break
             except NoSuchElementException:
@@ -417,6 +419,8 @@ class Opal:
                     if value in skip:
                         break
                     choice = random.choice(adjectives_add)
+                    # adjectives_used does not include adjectives_yesterday because
+                    # adjectives_used is put into csv later
                     if choice in adjectives_used + adjectives_yesterday:
                         if len(adjectives_used)+len(adjectives_yesterday) == len(adjectives_add):
                             warnings.warn("There are more terms than adjectives")
@@ -442,6 +446,9 @@ class Opal:
                            name="used_adjectives.csv",
                            override=True,
                            verbose=False)
+
+    def add_forced_adjectives(self):
+        """Adds forced adjectives"""
 
     def send_email(self):
         """Sends email"""

@@ -185,7 +185,7 @@ class Opal:
                      ],
 
             'debug': ["20skeeco@kids.udasd.org"]}# Used during --send
-        validate_emails(self.emails_dict)
+        self.validate_emails(self.emails_dict)
         self.emails = set(self.emails_dict['2020'] +
                           self.emails_dict['2019'] +
                           self.emails_dict['teachers'] +
@@ -209,13 +209,6 @@ class Opal:
         self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
 
         self.is_weekend = True if self.day.endswith(("Sat", "Sun")) else False
-
-    # def __enter__(self):
-    #     return self
-    #
-    # def __exit__(self):
-    #     self.driver.quit()
-    #     print(f"Ran for {self.time_ran}")
 
     def __del__(self):
         try:
@@ -241,6 +234,75 @@ class Opal:
         driver = webdriver.Chrome(self.driver_path, options=options)
         return driver
 
+    @staticmethod
+    def contains(string, *args):
+        """Checks if string contains arbitrary number of arguments"""
+        for arg in args:
+            if arg in string:
+                return True
+        return False
+
+    @staticmethod
+    def print_used():
+        """
+        Print yesterday's adjectives to console
+        """
+        adjectives = "\n".join(adj for adj in sorted(read_csv("used_adjectives.csv", flat=True)))
+        line = "-"*80
+    @staticmethod
+    def validate_emails(emails_dict: dict):
+        """Validate emails in emails_dict. Prints emails with issues"""
+        length_exceptions = ("19foxem@kids.udasd.org", "19deibsha@kids.udasd.org")
+        for key, value in emails_dict.items():
+            for email in value:
+                if key.startswith("20"):
+                    if not email.startswith(key[2:]):
+                        print(f"\nWARNING --|{email}|-- does not match the year\n")
+                    elif len(email) != 23 and email not in length_exceptions:
+                        print((f"\nWARNING --|{email}|-- has an irregular length and"
+                               " is not listed as an exception\n"))
+                    elif not email.endswith("@kids.udasd.org"):
+                        print(f"\nWARNING --|{email}|-- is not a kids.udasd.org email\n")
+
+                elif key == 'teachers':
+                    if not email.endswith("udasd.org"):
+                        print(f"\nWARNING --|{email}|-- is not a udasd.org email\n")
+                    elif len(email) != 16 and email not in length_exceptions:
+                        print((f"\nWARNING --|{email}|-- has an irregular length and"
+                               " is not listed as an exception\n"))
+
+    @staticmethod
+    def format_seconds(seconds, rounding=3):
+        """
+        Returns time formatted in a nicer format than '56007 seconds'
+
+        Args:
+            seconds: int|float Number of seconds
+            rounding: int decimal place to round to
+
+        Returns:
+            str Time formatted with most suitable time unit
+
+        Dependencies:
+            none
+        """
+        if seconds < 0:
+            raise ValueError("`seconds` cannot be less than 0.")
+
+        minute = 60
+        hour = minute*60
+        day = hour*24
+        year = day*365
+        if seconds < minute:
+            return f"{round(seconds, rounding)} seconds"
+        elif minute <= seconds < hour:
+            return f"{round(seconds/minute, rounding)} minutes"
+        elif hour <= seconds < day:
+            return f"{round(seconds/(hour), rounding)} hours"
+        elif day <= seconds < year:
+            return f"{round(seconds/(day), rounding)} days"
+        return f"{round(seconds/(year), rounding)} years"
+
     @property
     def random_member_name(self):
         """Return a random member name"""
@@ -249,7 +311,7 @@ class Opal:
     @property
     def time_ran(self):
         """Returns time run"""
-        return format_seconds(time.time() - self.start)
+        return self.format_seconds(time.time() - self.start)
 
     @property
     def now(self):
@@ -263,11 +325,12 @@ class Opal:
 
     @property
     def day(self):
-        """Return the str day"""
+        """Return the self.now in dd weekday (ex. 03 Mon, 17 Tue, 28 Wed, etc.)"""
         return self.now.strftime("%d %a")
 
     @property
     def timestamp(self):
+        """Return current time in str YYYY-MM-DD form"""
         return datetime.now().strftime('%Y-%m-%d')
 
     def login(self, verbose=True):
@@ -332,7 +395,7 @@ class Opal:
             time.sleep(2)
             return False
 
-        elif contains(meal.lower(), "no school", "no lunch", "early dismissal", "holiday break"):
+        elif self.contains(meal.lower(), "no school", "no lunch", "early dismissal", "holiday break"):
             if not self.is_dry:
                 self.meal = random.choice(self.no_lunch_nouns)
             else:
@@ -569,7 +632,7 @@ def handle_args(args):
         opal = Opal(**opal_args)
 
         if args.show_used:
-            print_used()
+            opal.print_used()
             quit()
         elif args.test_adjectives:
             opal.test_adjective_add()
@@ -640,74 +703,6 @@ def test_meal(opal: Opal):
     opal.clean_meal()
     print(opal.meal)
     print(opal.line)
-
-def validate_emails(emails_dict: dict):
-    """Validate emails in emails_dict. Prints emails with issues"""
-    length_exceptions = ("19foxem@kids.udasd.org", "19deibsha@kids.udasd.org")
-
-    for key, value in emails_dict.items():
-        for email in value:
-            if key.startswith("20"):
-                if not email.startswith(key[2:]):
-                    print(f"\nWARNING --|{email}|-- does not match the year\n")
-                elif len(email) != 23 and email not in length_exceptions:
-                    print((f"\nWARNING --|{email}|-- has an irregular length and"
-                           " is not listed as an exception\n"))
-                elif not email.endswith("@kids.udasd.org"):
-                    print(f"\nWARNING --|{email}|-- is not a kids.udasd.org email\n")
-
-            elif key == 'teachers':
-                if not email.endswith("udasd.org"):
-                    print(f"\nWARNING --|{email}|-- is not a udasd.org email\n")
-                elif len(email) != 16 and email not in length_exceptions:
-                    print((f"\nWARNING --|{email}|-- has an irregular length and"
-                           " is not listed as an exception\n"))
-
-def format_seconds(seconds, rounding=3):
-    """
-    Returns time formatted in a nicer format than '56007 seconds'
-
-    Args:
-        seconds: int|float Number of seconds
-        rounding: int decimal place to round to
-
-    Returns:
-        str Time formatted with most suitable time unit
-
-    Dependencies:
-        none
-    """
-    if seconds < 0:
-        raise ValueError("`seconds` cannot be less than 0.")
-
-    minute = 60
-    hour = minute*60
-    day = hour*24
-    year = day*365
-    if seconds < minute:
-        return f"{round(seconds, rounding)} seconds"
-    elif minute <= seconds < hour:
-        return f"{round(seconds/minute, rounding)} minutes"
-    elif hour <= seconds < day:
-        return f"{round(seconds/(hour), rounding)} hours"
-    elif day <= seconds < year:
-        return f"{round(seconds/(day), rounding)} days"
-    return f"{round(seconds/(year), rounding)} years"
-
-def contains(string, *args):
-    """Checks if string contains arbitrary number of arguments"""
-    for arg in args:
-        if arg in string:
-            return True
-    return False
-
-def print_used():
-    """
-    Print yesterday's adjectives to console
-    """
-    adjectives = "\n".join(adj for adj in sorted(read_csv("used_adjectives.csv", flat=True)))
-    line = "-"*80
-    print(f"{line}\n{adjectives}\n{line}")
 
 def create_csv(data, **kwargs):
     """

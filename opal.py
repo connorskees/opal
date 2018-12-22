@@ -249,10 +249,13 @@ class Opal:
         """
         adjectives = "\n".join(adj for adj in sorted(read_csv("used_adjectives.csv", flat=True)))
         line = "-"*80
+        print(f"{line}\n{adjectives}\n{line}")
+
     @staticmethod
     def validate_emails(emails_dict: dict):
         """Validate emails in emails_dict. Prints emails with issues"""
         length_exceptions = ("19foxem@kids.udasd.org", "19deibsha@kids.udasd.org")
+
         for key, value in emails_dict.items():
             for email in value:
                 if key.startswith("20"):

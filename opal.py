@@ -19,7 +19,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-# TODO: better handling of validate_emails
+# TODO: better handling of validate_emails (--strict? raises exception instead of warning)
 # TODO: holiday adjectives
 
 
@@ -70,7 +70,7 @@ class Opal:
                              "Survivors", "Children", "Subscribers",)
 
         self.no_lunch_nouns = ("https://www.youtube.com/watch?v=xO2gkQQ8SB0", "Starve!",
-                               "suffer.", "nothing lol",)
+                               "suffer.", "nothing lol", "https://www.youtube.com/watch?v=_ieCjpmliSg",)
 
         self.suffixes_remove = ('Florets', 'on a Bun', 'with Gravy', 'in a Cone',
                                 'on a Stick', 'with Fresh Bread',

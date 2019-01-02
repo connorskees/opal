@@ -70,7 +70,8 @@ class Opal:
                              "Survivors", "Children", "Subscribers",)
 
         self.no_lunch_nouns = ("https://www.youtube.com/watch?v=xO2gkQQ8SB0", "Starve!",
-                               "suffer.", "nothing lol", "https://www.youtube.com/watch?v=_ieCjpmliSg",)
+                               "suffer.", "nothing lol", "https://www.youtube.com/watch?v=_ieCjpmliSg",
+                               "https://www.youtube.com/watch?v=JbepN4dKLbU",)
 
         self.suffixes_remove = ('Florets', 'on a Bun', 'with Gravy', 'in a Cone',
                                 'on a Stick', 'with Fresh Bread',

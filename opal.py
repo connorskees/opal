@@ -204,7 +204,8 @@ class Opal:
             self.version_number += debug_email_message
             self.emails = self.emails_dict['debug']
 
-        self.is_test = any((self.is_test, self.add_days, self.custom_date, self.date_range))
+        self.is_test = (any((self.is_test, self.add_days, self.custom_date, self.date_range))
+                        and not self.is_test_email)
 
         url_date = self.now.strftime("%Y-%m-%d")
         self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
@@ -476,7 +477,7 @@ class Opal:
 
     def add_adjectives(self):
         """Randomly assigns adjectives to each food item"""
-        skip = ("or", "Recipe of the Month",) + self.no_lunch_nouns + self.special_event_nouns
+        skip = ("or", "Recipe of the Month", "\n") + self.no_lunch_nouns + self.special_event_nouns
         f_adj = self.forced_adjectives
         adjectives_add = self.adjectives_add
 
@@ -496,7 +497,7 @@ class Opal:
                             warnings.warn("There are more terms than adjectives")
                             break
                         continue
-                    self.meal[index] = choice + " " + value
+                    self.meal[index] = f"{choice} {value}"
                     adjectives_used.append(choice)
                     break
 
@@ -504,6 +505,7 @@ class Opal:
             # first, it removes adjectives not in the normal list
             # then, it removes extra adjectives and zips with already used adjs
             # replaces the already used adjectives and re splits
+            # it's for forcing adjectives
             if f_adj and adjectives_used:
                 f_adj = [adj for adj in f_adj if adj in adjectives_add][:len(adjectives_used)]
                 self.meal = "\n".join(self.meal)
@@ -511,7 +513,7 @@ class Opal:
                     self.meal = self.meal.replace(used, forced)
                 self.meal = self.meal.split("\n")
 
-            if adjectives_used and not self.is_test and not self.is_test_email and not self.is_dry:
+            if adjectives_used and not any((self.is_test, self.is_test_email, self.is_dry)):
                 create_csv(data=[self.timestamp]+adjectives_used,
                            name="used_adjectives.csv",
                            override=True,

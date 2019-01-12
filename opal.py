@@ -209,8 +209,6 @@ class Opal:
         url_date = self.now.strftime("%Y-%m-%d")
         self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
 
-        self.is_weekend = True if self.day.endswith(("Sat", "Sun")) else False
-
     def __del__(self):
         try:
             self.driver.quit()
@@ -336,6 +334,11 @@ class Opal:
     def timestamp(self):
         """Return current time in str YYYY-MM-DD form"""
         return datetime.now().strftime('%Y-%m-%d')
+
+    @property
+    def is_weekend(self):
+        """Return true if the current day of the week is saturday or sunday"""
+        return True if self.now.weekday() in (5, 6) else False
 
     def login(self, verbose=True):
         """Gets past bot page on website"""

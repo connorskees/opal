@@ -88,7 +88,7 @@ class Opal:
                                   "Savory", "Seasoned", "Sliced", "Spicy", "Swedish",
                                   "Tangy", "Tropical", "Warm", "Blended", "Mandarin",
                                   "Roasted", "Vegetarian", "Steamed", "Soft",
-                                  "Mediterranean", "Citrus", "Oven", "Crisp",
+                                  "Mediterranean", "Citrus", "Oven", "Crisp", "Beefy",
                                  )
         self.adjectives_add = ('100% Real Beef', 'Adequate', 'Aged', 'Ambitious',
                                'Antimicrobial', 'Artisinal', 'Average', 'Beefy',

@@ -459,9 +459,9 @@ class Opal:
             "w/": "with", # This abbreviation is annoying
             "Pasta and Meat Sauce": "Pasta with Meat Sauce",
             "Salisbury Steak and Bread": "Salisbury Steak with Bread",
-            "Nachos Waffle Cone": "Nachos in a Waffle Cone,
+            "Nachos Waffle Cone": "Nachos in a Waffle Cone",
             "Turkey Bacon Club Pretzel Melt": "Turkey Bacon Pretzel Melt",
-            
+
             "No School-": "No School:",
             "No School for": "No School:",
             "New Year's Day - No School": "No School: New Year's Day",

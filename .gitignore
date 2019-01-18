@@ -1,4 +1,7 @@
 
 password.txt
+
 *.pyc
+
 *.log
+.mypy_cache/

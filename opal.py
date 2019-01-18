@@ -209,7 +209,8 @@ class Opal:
                         and not self.is_test_email)
 
         url_date = self.now.strftime("%Y-%m-%d")
-        self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
+        self.base_url = "https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/"
+        self.url = f"{self.base_url}{url_date}"
 
     def __del__(self):
         try:
@@ -221,7 +222,10 @@ class Opal:
     def start_driver(self):
         """Creates the driver variable and starts selenium"""
         options = webdriver.ChromeOptions()
-        prefs = {'profile.managed_default_content_settings.images':2, 'disk-cache-size':4096}
+        prefs = {
+            'profile.managed_default_content_settings.images':2,
+            'disk-cache-size':4096
+        }
         options.add_experimental_option("prefs", prefs)
 
         # run as headless
@@ -261,19 +265,21 @@ class Opal:
             for email in value:
                 if key.startswith("20"):
                     if not email.startswith(key[2:]):
-                        print(f"\nWARNING --|{email}|-- does not match the year\n")
+                        print((f"\nWARNING --|{email}|-- does not match "
+                               "the year\n"))
                     elif len(email) != 23 and email not in length_exceptions:
-                        print((f"\nWARNING --|{email}|-- has an irregular length and"
-                               " is not listed as an exception\n"))
+                        print((f"\nWARNING --|{email}|-- has an irregular "
+                               "length and is not listed as an exception\n"))
                     elif not email.endswith("@kids.udasd.org"):
-                        print(f"\nWARNING --|{email}|-- is not a kids.udasd.org email\n")
+                        print((f"\nWARNING --|{email}|-- is not a "
+                               "kids.udasd.org email\n"))
 
                 elif key == 'teachers':
                     if not email.endswith("udasd.org"):
                         print(f"\nWARNING --|{email}|-- is not a udasd.org email\n")
                     elif len(email) != 16 and email not in length_exceptions:
-                        print((f"\nWARNING --|{email}|-- has an irregular length and"
-                               " is not listed as an exception\n"))
+                        print((f"\nWARNING --|{email}|-- has an irregular"
+                               "length and is not listed as an exception\n"))
 
     @staticmethod
     def format_seconds(seconds, rounding=3):
@@ -329,7 +335,7 @@ class Opal:
 
     @property
     def day(self):
-        """Return the self.now in dd weekday (ex. 03 Mon, 17 Tue, 28 Wed, etc.)"""
+        """Return the self.now in dd weekday (ex. 03 Mon, 17 Tue, etc.)"""
         return self.now.strftime("%d %a")
 
     @property
@@ -356,7 +362,7 @@ class Opal:
                 time.sleep(.5)
             try:
                 # there used to be a terms and services checkbox
-                # below is the code for it
+                # below is the code for it:
                 # terms_checkbox = driver.find_element_by_css_selector("body main div input")
                 # driver.execute_script("arguments[0].click();", terms_checkbox)
                 driver.find_element_by_css_selector("button.primary").click()
@@ -370,12 +376,12 @@ class Opal:
         """Find the meal on the webpage"""
         time.sleep(int(self.day[:2])/18)
 
-        old_date = datetime.strptime(self.url, "https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/%Y-%m-%d")
+        old_date = datetime.strptime(self.url, f"{self.base_url}%Y-%m-%d")
         if old_date.month != self.now.month:
             url_date = self.now.strftime("%Y-%m-%d")
-            new_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
+            new_url = f"{self.base_url}{url_date}"
             if self.driver.current_url != new_url:
-                self.url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/{url_date}"
+                self.url = f"{self.base_url}{url_date}"
                 self.driver.get(self.url)
                 time.sleep(int(self.day[:2])/18)
 
@@ -404,7 +410,12 @@ class Opal:
             time.sleep(2)
             return False
 
-        elif self.contains(meal.lower(), "no school", "no lunch", "early dismissal", "holiday break"):
+        elif self.contains(meal.lower(),
+                           "no school",
+                           "no lunch",
+                           "early dismissal",
+                           "holiday break"):
+
             if not self.is_dry:
                 self.meal = random.choice(self.no_lunch_nouns)
             else:
@@ -419,12 +430,14 @@ class Opal:
     def clean_meal(self):
         """Makes changes to meal"""
         self.remove_adjectives_and_suffixes()
-        self.add_special_events()
+        if not self.is_dry:
+            self.add_special_events()
         self.meal_replacements()
 
         self.meal = [m.strip() for m in self.meal.split("\n") if m != self.day]
 
-        self.add_adjectives()
+        if not self.is_dry:
+            self.add_adjectives()
 
         self.meal = "\n".join(self.meal)
         self.meal += f"\n{self.version_number}"
@@ -439,11 +452,10 @@ class Opal:
 
     def add_special_events(self):
         """Adds special event nouns if special event"""
-        if not self.is_dry:
-            for event in self.special_events:
-                if event in self.meal:
-                    random_noun = random.choice(self.special_event_nouns)
-                    self.meal = self.meal.replace("Milk", f"{random_noun}\nMilk")
+        for event in self.special_events:
+            if event in self.meal:
+                random_noun = random.choice(self.special_event_nouns)
+                self.meal = self.meal.replace("Milk", f"{random_noun}\nMilk")
 
     def meal_replacements(self):
         """Makes manual replacements for clarity"""
@@ -460,8 +472,9 @@ class Opal:
             "Pasta and Meat Sauce": "Pasta with Meat Sauce",
             "Salisbury Steak and Bread": "Salisbury Steak with Bread",
             "Nachos Waffle Cone": "Nachos in a Waffle Cone",
-            "Turkey Bacon Club Pretzel Melt": "Turkey Bacon Pretzel Melt",
+            "Turkey Bacon Club Pretzel Melt": "Turkey and Bacon Pretzel Melt",
 
+            # standardize no lunch meals for potential future use
             "No School-": "No School:",
             "No School for": "No School:",
             "New Year's Day - No School": "No School: New Year's Day",
@@ -487,42 +500,41 @@ class Opal:
         adjectives_add = self.adjectives_add
 
         # add adjective
-        if not self.is_dry:
-            adjectives_yesterday = read_csv("used_adjectives.csv", flat=True)
-            adjectives_used = []
-            for index, value in enumerate(self.meal):
-                while True:
-                    if value in skip:
-                        break
-                    choice = random.choice(adjectives_add)
-                    # adjectives_used does not include adjectives_yesterday because
-                    # adjectives_used is put into csv later
-                    if choice in adjectives_used + adjectives_yesterday:
-                        if len(adjectives_used)+len(adjectives_yesterday) == len(adjectives_add):
-                            warnings.warn("There are more terms than adjectives")
-                            break
-                        continue
-                    self.meal[index] = f"{choice} {value}"
-                    adjectives_used.append(choice)
+        adjectives_yesterday = read_csv("used_adjectives.csv", flat=True)
+        adjectives_used = []
+        for index, value in enumerate(self.meal):
+            while True:
+                if value in skip:
                     break
+                choice = random.choice(adjectives_add)
+                # adjectives_used does not include adjectives_yesterday because
+                # adjectives_used is put into csv later
+                if choice in adjectives_used + adjectives_yesterday:
+                    if len(adjectives_used)+len(adjectives_yesterday) == len(adjectives_add):
+                        warnings.warn("There are more terms than adjectives")
+                        break
+                    continue
+                self.meal[index] = f"{choice} {value}"
+                adjectives_used.append(choice)
+                break
 
-            # so this block of code is a real mess and needs to be refactored
-            # first, it removes adjectives not in the normal list
-            # then, it removes extra adjectives and zips with already used adjs
-            # replaces the already used adjectives and re splits
-            # it's for forcing adjectives
-            if f_adj and adjectives_used:
-                f_adj = [adj for adj in f_adj if adj in adjectives_add][:len(adjectives_used)]
-                self.meal = "\n".join(self.meal)
-                for used, forced in zip(adjectives_used, f_adj):
-                    self.meal = self.meal.replace(used, forced)
-                self.meal = self.meal.split("\n")
+        # so this block of code is a real mess and needs to be refactored
+        # first, it removes adjectives not in the normal list
+        # then, it removes extra adjectives and zips with already used adjs
+        # replaces the already used adjectives and re splits
+        # it's for forcing adjectives
+        if f_adj and adjectives_used:
+            f_adj = [adj for adj in f_adj if adj in adjectives_add][:len(adjectives_used)]
+            self.meal = "\n".join(self.meal)
+            for used, forced in zip(adjectives_used, f_adj):
+                self.meal = self.meal.replace(used, forced)
+            self.meal = self.meal.split("\n")
 
-            if adjectives_used and not any((self.is_test, self.is_test_email, self.is_dry)):
-                create_csv(data=[self.timestamp]+adjectives_used,
-                           name="used_adjectives.csv",
-                           override=True,
-                           verbose=False)
+        if adjectives_used and not any((self.is_test, self.is_test_email, self.is_dry)):
+            create_csv(data=[self.timestamp]+adjectives_used,
+                       name="used_adjectives.csv",
+                       override=True,
+                       verbose=False)
 
     def add_forced_adjectives(self):
         """Adds forced adjectives"""
@@ -548,7 +560,9 @@ class Opal:
         mail.quit()
 
     def test_adjective_add(self, noun="Milk"):
-        """Print every adjective with a noun to test for whitespace, spelling, etc."""
+        """
+        Print every adjective with a noun to test for whitespace, spelling, etc
+        """
         noun_w_adj = '\n'.join(f'{adj} {noun}' for adj in self.adjectives_add)
         print(f"{self.line}\n{noun_w_adj}\n{self.line}")
 

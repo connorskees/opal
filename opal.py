@@ -14,6 +14,7 @@ import random
 import smtplib
 import sys
 import time
+from typing import List, Tuple
 import warnings
 
 from selenium import webdriver
@@ -27,18 +28,18 @@ from selenium.common.exceptions import NoSuchElementException
 class Opal:
     """Visits menu hosted online; finds, validates, and cleans meal"""
     def __init__(self,
-                 driver_path,
-                 start_time,
-                 is_dry,
-                 is_test,
-                 is_tomorrow,
-                 is_yesterday,
-                 add_days,
-                 custom_date,
-                 forced_adjectives,
-                 date_range,
-                 is_test_email,
-                 gui):
+                 driver_path: str,
+                 start_time: int,
+                 is_dry: bool,
+                 is_test: bool,
+                 is_tomorrow: bool,
+                 is_yesterday: bool,
+                 add_days: int,
+                 custom_date: Tuple[str, str, str],
+                 forced_adjectives: List[str],
+                 date_range: Tuple[str, str, str, str, str, str],
+                 is_test_email: bool,
+                 gui: bool):
 
         self.start = time.time()
 
@@ -139,7 +140,7 @@ class Opal:
                               )
 
         self.emails_dict = {
-            '2020': ["20calhse@kids.udasd.org", # Searia Calhoun
+            '2020': {"20calhse@kids.udasd.org", # Searia Calhoun
                      "20skeeco@kids.udasd.org", # Connor Skees
                      "20etzwem@kids.udasd.org", # Emily Etzweiler
                      "20schaha@kids.udasd.org", # Hannah Schade
@@ -153,9 +154,9 @@ class Opal:
                      "20dunkma@kids.udasd.org", # Mason Dunkle
                      "20daubka@kids.udasd.org", # Kaylob Dauberman
                      "20mattka@kids.udasd.org", # Kade Matter
-                    ],
+                    },
 
-            '2019': ["19sampca@kids.udasd.org", # Cailen Sample
+            '2019': {"19sampca@kids.udasd.org", # Cailen Sample
                      "19kingza@kids.udasd.org", # Zane King
                      "19millva@kids.udasd.org", # Vaughn Miller
                      "19lenkle@kids.udasd.org", # Lea Lenker
@@ -176,22 +177,23 @@ class Opal:
                      "19snydde@kids.udasd.org", # Destin Snyder
                      "19kennzo@kids.udasd.org", # Zoe Kennerly
                      "19millma@kids.udasd.org", # Madison Miller
-                    ],
+                    },
 
-            'teachers': ["heathj@udasd.org",    # Mr. Heath
+            'teachers': {"heathj@udasd.org",    # Mr. Heath
                          "smithv@udasd.org",    # Mrs. Smith
-                        ],
+                        },
 
-            'other': ["connor1skees@gmail.com", # Connor Skees (personal)
+            'other': {"connor1skees@gmail.com", # Connor Skees (personal)
                       "bettyraup@gmail.com",    # Betty Raup (personal)
-                     ],
+                     },
 
-            'debug': ["20skeeco@kids.udasd.org"]}# Used during --send
+            'debug': {"20skeeco@kids.udasd.org"}# Used during --send
+            }
         self.validate_emails(self.emails_dict)
-        self.emails = set(self.emails_dict['2020'] +
-                          self.emails_dict['2019'] +
-                          self.emails_dict['teachers'] +
-                          self.emails_dict['other'])
+        self.emails = (self.emails_dict['2020']
+                       |self.emails_dict['2019']
+                       |self.emails_dict['teachers']
+                       |self.emails_dict['other'])
 
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
@@ -205,7 +207,10 @@ class Opal:
             self.version_number += debug_email_message
             self.emails = self.emails_dict['debug']
 
-        self.is_test = (any((self.is_test, self.add_days, self.custom_date, self.date_range))
+        self.is_test = (any((self.is_test,
+                             self.add_days,
+                             self.custom_date,
+                             self.date_range))
                         and not self.is_test_email)
 
         url_date = self.now.strftime("%Y-%m-%d")
@@ -439,8 +444,8 @@ class Opal:
         if not self.is_dry:
             self.add_adjectives()
 
+        self.meal.append(f"\n{self.version_number}")
         self.meal = "\n".join(self.meal)
-        self.meal += f"\n{self.version_number}"
         self.meal = self.meal.replace("  ", " ").strip()
 
     def remove_adjectives_and_suffixes(self):

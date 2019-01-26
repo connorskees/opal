@@ -93,7 +93,7 @@ class Opal:
                                  )
         self.adjectives_add = ('100% Real Beef', 'Adequate', 'Aged', 'Ambitious',
                                'Antimicrobial', 'Artisinal', 'Average', 'Beefy',
-                               'Berry Berry Delicious', 'Blood of Opal\'s Enemies Red',
+                               'Berry Berry Delicious',
                                'Buttery', 'Charming', 'Chewy', 'Comforting',
                                'Country Fried', 'Courageous', 'Cream of the Crop',
                                'Cultured', 'Curdled', 'Daring', 'Definitely Safe to Eat',

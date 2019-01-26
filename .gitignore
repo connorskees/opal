@@ -5,4 +5,5 @@ password.txt
 
 *.log
 .mypy_cache/
+
 used_adjectives.csv

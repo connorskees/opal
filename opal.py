@@ -200,14 +200,14 @@ class Opal:
 
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
-        self.version_number = (f"\nOpal v{__version__}"
-                               f"\nCurrent {self.random_member_name}: {len(self.emails)}"
-                               f"\nAdjectives: {len(self.adjectives_add)}"
-                               f"\nLines of Code: {len(open('opal.py').readlines())}"
-                               f"\nFind out more here: https://github.com/ConnorSkees/opal")
+        self.footer = (f"\nOpal v{__version__}"
+                       f"\nCurrent {self.random_member_name}: {len(self.emails)}"
+                       f"\nAdjectives: {len(self.adjectives_add)}"
+                       f"\nLines of Code: {len(open('opal.py').readlines())}"
+                       f"\nFind out more here: https://github.com/ConnorSkees/opal")
 
         if self.is_test_email:
-            self.version_number += debug_email_message
+            self.footer += debug_email_message
             self.emails = self.emails_dict['debug']
 
         self.is_test = (any((self.is_test,
@@ -447,7 +447,7 @@ class Opal:
         if not self.is_dry:
             self.add_adjectives()
 
-        self.meal.append(f"{self.version_number}")
+        self.meal.append(f"{self.footer}")
         self.meal = "\n".join(self.meal)
         self.meal = self.meal.replace("  ", " ").strip()
 
@@ -719,7 +719,7 @@ def real_meal(opal: Opal):
         print(f"{opal.line}\n{opal.meal}\n{opal.line}")
         if opal.is_test_email:
             break
-        create_csv([f"{opal.timestamp}\n{opal.meal.replace(opal.version_number, '').strip()}"],
+        create_csv([f"{opal.timestamp}\n{opal.meal.replace(opal.footer, '').strip()}"],
                    name="opal_email_archive", override=False, verbose=False)
         print("Sleeping for 1 hour...")
         time.sleep(60*60)

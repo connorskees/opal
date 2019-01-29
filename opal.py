@@ -65,7 +65,29 @@ class Opal:
         self.driver: webdriver # defined in start_driver()
 
         self.special_events = ("Holiday Dinner", "Tasty Bites", "Food Fusion")
-        self.special_event_nouns = ("You", "Your first born child", "Alex Jones", "Sarah Palin",)
+        self.special_event_nouns = ("You", "Your first born child",
+                                    "Alex Jones", "Sarah Palin", "Egg",
+                                    "George Lopez")
+
+        self.holidays = {
+            'Thanksgiving Meal': {
+                'adjectives': ('Thankful', 'Abundant', 'Bountiful',
+                               'Plentiful'),
+                'nouns': ('An entire pumpkin'),
+            },
+            'Holiday Dinner': { # Christmas
+                'adjectives': ('Festive', 'Merry'),
+                'nouns': ('A hippopotamus', 'Your two front teeth'),
+            },
+            'Super Bowl Party': {
+                'adjectives': ('My Hungry Guys\'', 'Tom Brady\'s'),
+                'nouns': ('Totino\'s Pizza Rolls'),
+            },
+            'Senior Citizen\'s Luncheon': {
+                'adjectives': ('Elderly', 'Old', 'Mushy', ),
+                'nouns': ('Dentures'),
+            },
+        }
 
         self.member_names = ("Members", "Followers", "Disciples",
                              "True Believers", "Enlightened Ones", "Acolytes",

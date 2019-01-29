@@ -67,9 +67,10 @@ class Opal:
         self.special_events = ("Holiday Dinner", "Tasty Bites", "Food Fusion")
         self.special_event_nouns = ("You", "Your first born child", "Alex Jones", "Sarah Palin",)
 
-        self.member_names = ("Members", "Followers", "Disciples", "True Believers",
-                             "Enlightened Ones", "Acolytes", "Righteous Ones", "Flat Earthers",
-                             "Survivors", "Children", "Subscribers",)
+        self.member_names = ("Members", "Followers", "Disciples",
+                             "True Believers", "Enlightened Ones", "Acolytes",
+                             "Righteous Ones", "Flat Earthers", "Survivors",
+                             "Children", "Subscribers",)
 
         self.no_lunch_nouns = ("Starve!", "suffer.", "nothing lol",
                                "https://www.youtube.com/watch?v=xO2gkQQ8SB0",

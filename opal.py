@@ -24,7 +24,7 @@ from selenium.common.exceptions import NoSuchElementException
 # TODO: better handling of validate_emails (--strict? raises exception instead of warning)
 # TODO: holiday adjectives
 
-__version__ = "3.2.2"
+__version__ = "3.2.3"
 
 
 class Opal:
@@ -447,7 +447,7 @@ class Opal:
         if not self.is_dry:
             self.add_adjectives()
 
-        self.meal.append(f"\n{self.version_number}")
+        self.meal.append(f"{self.version_number}")
         self.meal = "\n".join(self.meal)
         self.meal = self.meal.replace("  ", " ").strip()
 

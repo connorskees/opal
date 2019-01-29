@@ -14,7 +14,7 @@ import random
 import smtplib
 import sys
 import time
-from typing import List, Tuple
+from typing import List, Tuple, Union
 import warnings
 
 from selenium import webdriver
@@ -62,7 +62,7 @@ class Opal:
         self.line = "-"*80
 
         self.meal = ""
-        self.driver = "" # defined in start_driver()
+        self.driver: webdriver # defined in start_driver()
 
         self.special_events = ("Holiday Dinner", "Tasty Bites", "Food Fusion")
         self.special_event_nouns = ("You", "Your first born child", "Alex Jones", "Sarah Palin",)
@@ -246,7 +246,7 @@ class Opal:
         return driver
 
     @staticmethod
-    def contains(string, *args):
+    def contains(string: str, *args) -> bool:
         """Checks if string contains arbitrary number of arguments"""
         for arg in args:
             if arg in string:
@@ -254,7 +254,7 @@ class Opal:
         return False
 
     @staticmethod
-    def print_used():
+    def print_used() -> None:
         """
         Print yesterday's adjectives to console
         """
@@ -263,7 +263,7 @@ class Opal:
         print(f"{line}\n{adjectives}\n{line}")
 
     @staticmethod
-    def validate_emails(emails_dict: dict):
+    def validate_emails(emails_dict: dict) -> None:
         """Validate emails in emails_dict. Prints emails with issues"""
         length_exceptions = ("19foxem@kids.udasd.org", "19deibsha@kids.udasd.org")
 
@@ -288,12 +288,12 @@ class Opal:
                                "length and is not listed as an exception\n"))
 
     @staticmethod
-    def format_seconds(seconds, rounding=3):
+    def format_seconds(seconds: Union[int, float], rounding: int = 3) -> str:
         """
         Returns time formatted in a nicer format than '56007 seconds'
 
         Args:
-            seconds: int|float Number of seconds
+            seconds: int or float Number of seconds
             rounding: int decimal place to round to
 
         Returns:
@@ -320,17 +320,17 @@ class Opal:
         return f"{round(seconds/(year), rounding)} years"
 
     @property
-    def random_member_name(self):
+    def random_member_name(self) -> str:
         """Return a random member name"""
         return random.choice(self.member_names)
 
     @property
-    def time_ran(self):
+    def time_ran(self) -> str:
         """Returns time run"""
         return self.format_seconds(time.time() - self.start)
 
     @property
-    def now(self):
+    def now(self) -> datetime:
         """Returns datetime to get lunch from"""
         current_time = datetime.now()
         if self.add_days:
@@ -340,21 +340,21 @@ class Opal:
         return current_time
 
     @property
-    def day(self):
+    def day(self) -> str:
         """Return the self.now in dd weekday (ex. 03 Mon, 17 Tue, etc.)"""
         return self.now.strftime("%d %a")
 
     @property
-    def timestamp(self):
+    def timestamp(self) -> str:
         """Return current time in str YYYY-MM-DD form"""
         return datetime.now().strftime('%Y-%m-%d')
 
     @property
-    def is_weekend(self):
+    def is_weekend(self) -> bool:
         """Return true if the current day of the week is saturday or sunday"""
         return True if self.now.weekday() in (5, 6) else False
 
-    def login(self, verbose=True):
+    def login(self, verbose: bool = True) -> None:
         """Gets past bot page on website"""
         self.driver = self.start_driver()
         driver = self.driver
@@ -545,7 +545,7 @@ class Opal:
     def add_forced_adjectives(self):
         """Adds forced adjectives"""
 
-    def send_email(self):
+    def send_email(self) -> None:
         """Sends email"""
         msg = MIMEMultipart('alternative')
         msg['Subject'] = f"{self.day} Lunch"
@@ -565,7 +565,7 @@ class Opal:
         mail.sendmail("lunchladyopal@gmail.com", self.emails, msg.as_string())
         mail.quit()
 
-    def test_adjective_add(self, noun="Milk"):
+    def test_adjective_add(self, noun: str = "Milk") -> None:
         """
         Print every adjective with a noun to test for whitespace, spelling, etc
         """

@@ -5,7 +5,7 @@ import time
 import unittest
 import opal
 
-class FakeDriver:
+class MockDriver:
     """Contains the same methods as a driver, but doesn't require starting selenium"""
     def __init__(self):
         """init"""
@@ -83,7 +83,7 @@ class TestOpal(unittest.TestCase):
 
     def test_validate_meal(self):
         """Determine if it correctly recognizes good and bad meals"""
-        fake_driver = FakeDriver()
+        fake_driver = MockDriver()
         TEST_OPAL.driver = fake_driver
 
         TEST_OPAL.meal = f"{TEST_OPAL.day}\nLoading Menu"

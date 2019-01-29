@@ -24,6 +24,8 @@ from selenium.common.exceptions import NoSuchElementException
 # TODO: better handling of validate_emails (--strict? raises exception instead of warning)
 # TODO: holiday adjectives
 
+__version__ = "3.2.2"
+
 
 class Opal:
     """Visits menu hosted online; finds, validates, and cleans meal"""
@@ -198,7 +200,7 @@ class Opal:
 
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
-        self.version_number = (f"\nOpal v3.2.2"
+        self.version_number = (f"\nOpal v{__version__}"
                                f"\nCurrent {self.random_member_name}: {len(self.emails)}"
                                f"\nAdjectives: {len(self.adjectives_add)}"
                                f"\nLines of Code: {len(open('opal.py').readlines())}"

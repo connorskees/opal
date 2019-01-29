@@ -39,7 +39,6 @@ class Opal:
                  add_days: int,
                  custom_date: Tuple[str, str, str],
                  forced_adjectives: List[str],
-                 date_range: Tuple[str, str, str, str, str, str],
                  is_test_email: bool,
                  gui: bool):
 
@@ -52,7 +51,6 @@ class Opal:
         self.add_days = add_days
         self.custom_date = custom_date
         self.forced_adjectives = forced_adjectives
-        self.date_range = date_range
         self.is_test_email = is_test_email
         self.gui = gui
 
@@ -73,8 +71,9 @@ class Opal:
                              "Enlightened Ones", "Acolytes", "Righteous Ones", "Flat Earthers",
                              "Survivors", "Children", "Subscribers",)
 
-        self.no_lunch_nouns = ("https://www.youtube.com/watch?v=xO2gkQQ8SB0", "Starve!",
-                               "suffer.", "nothing lol", "https://www.youtube.com/watch?v=_ieCjpmliSg",
+        self.no_lunch_nouns = ("Starve!", "suffer.", "nothing lol",
+                               "https://www.youtube.com/watch?v=xO2gkQQ8SB0",
+                               "https://www.youtube.com/watch?v=_ieCjpmliSg",
                                "https://www.youtube.com/watch?v=JbepN4dKLbU",)
 
         self.suffixes_remove = ('Florets', 'on a Bun', 'with Gravy', 'in a Cone',
@@ -212,8 +211,7 @@ class Opal:
 
         self.is_test = (any((self.is_test,
                              self.add_days,
-                             self.custom_date,
-                             self.date_range))
+                             self.custom_date,))
                         and not self.is_test_email)
 
         url_date = self.now.strftime("%Y-%m-%d")
@@ -481,6 +479,7 @@ class Opal:
             "Salisbury Steak and Bread": "Salisbury Steak with Bread",
             "Nachos Waffle Cone": "Nachos in a Waffle Cone",
             "Turkey Bacon Club Pretzel Melt": "Turkey and Bacon Pretzel Melt",
+            "Pineapple Tidbits": "Pineapple Bites",
 
             # standardize no lunch meals for potential future use
             "No School-": "No School:",
@@ -629,13 +628,6 @@ def main():
     parser.add_argument("--force", nargs="+", dest="forced_adjectives",
                         default=None, type=str,
                         help="""Force the adjectives for the coming day""")
-
-    parser.add_argument("--date-range", "--date_range", nargs="+", dest="date_range",
-                        default=None, type=int,
-                        help="""Print the meal for all dates within the range to
-                                console instead of sending an email. Format: YYYY MM DD
-                                YYYY MM DD Example: --date-range 2019 01 17 2019 01 20""")
-
 
     parser.add_argument("--send", action="store_true", dest="is_test_email",
                         default=False, help="Send a debug email.")

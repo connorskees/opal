@@ -583,15 +583,15 @@ class Opal:
             subject: str email subject
             text: str email text
             recipients: str or list of str recipients of email
-            sender: str
-            password: str
+            sender: str Email to be sent from
+            password: str Sender's password
             image_path: str Path to image file to attach
             video_path: str Path to video file to attach
 
         Returns:
             None
 
-        Dependencies:
+        Imports:
             from email.mime.multipart import MIMEMultipart
             from email.mime.audio import MIMEAudio
             from email.mime.image import MIMEImage

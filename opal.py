@@ -168,7 +168,8 @@ class Opal:
                                'A little hip hop and country', 'Rusty', 'Wicked Awesome',
                                'Damp', 'Socially Inadequate', 'Wet', 'Musty',
                                'Crusty', 'Your Mom\'s Legs\'', 'Sickening',
-                               'No Cap', 'Fun-Filled', 'Suite', 'Sweaty'
+                               'No Cap', 'Fun-Filled', 'Suite', 'Sweaty',
+                               'Hedonsitic'
                               )
 
         self.emails_dict = {

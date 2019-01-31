@@ -898,13 +898,22 @@ def read_csv(csv_file, flat=False):
         warnings.warn(f"Could not locate '{csv_file}'")
         return [[]] # it shouldn't prevent the email even if it can't find the file
 
-def read_file(file_path, split_char=None):
-    """Read a text file"""
-    with open(file_path, mode='r') as file:
-        data = file.read()
-        if split_char:
-            data = data.split(split_char)
-        return data
+def read_file(path_to_file: str) -> str:
+    """
+    Read file and return it as str
+
+    Args:
+        file_path: str Path to file
+
+    Returns:
+        str data within file
+    """
+    try:
+        with open(path_to_file, mode='r', encoding='utf-8') as file:
+            return file.read()
+    except (TypeError, UnicodeDecodeError):
+        with open(path_to_file, mode='rb') as file:
+            return file.read()
 
 if __name__ == "__main__":
     main()

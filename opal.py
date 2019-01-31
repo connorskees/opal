@@ -24,7 +24,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-# TODO: better handling of validate_emails (--strict? raises exception instead of warning)
+# TODO: better handling of _validate_emails (--strict? raises exception instead of warning)
 # TODO: holiday adjectives
 
 __version__ = "4.0.0"
@@ -222,7 +222,7 @@ class Opal:
 
             'debug': {"20skeeco@kids.udasd.org"}# Used during --send
             }
-        self.validate_emails(self.emails_dict)
+        self._validate_emails(self.emails_dict)
         self.emails = (self.emails_dict['2020']
                        |self.emails_dict['2019']
                        |self.emails_dict['teachers']
@@ -277,7 +277,7 @@ class Opal:
         return driver
 
     @staticmethod
-    def contains(string: str, *args) -> bool:
+    def _contains(string: str, *args) -> bool:
         """Checks if string contains arbitrary number of arguments"""
         for arg in args:
             if arg in string:
@@ -294,7 +294,7 @@ class Opal:
         print(f"{line}\n{adjectives}\n{line}")
 
     @staticmethod
-    def validate_emails(emails_dict: dict) -> None:
+    def _validate_emails(emails_dict: dict) -> None:
         """Validate emails in emails_dict. Prints emails with issues"""
         length_exceptions = ("19foxem@kids.udasd.org", "19deibsha@kids.udasd.org")
 
@@ -319,7 +319,7 @@ class Opal:
                                "length and is not listed as an exception\n"))
 
     @staticmethod
-    def format_seconds(seconds: Union[int, float], rounding: int = 3) -> str:
+    def _format_seconds(seconds: Union[int, float], rounding: int = 3) -> str:
         """
         Returns time formatted in a nicer format than '56007 seconds'
 
@@ -358,7 +358,7 @@ class Opal:
     @property
     def time_ran(self) -> str:
         """Returns time run"""
-        return self.format_seconds(time.time() - self.start)
+        return self._format_seconds(time.time() - self.start)
 
     @property
     def now(self) -> datetime:
@@ -447,7 +447,7 @@ class Opal:
             time.sleep(2)
             return False
 
-        elif self.contains(meal.lower(),
+        elif self._contains(meal.lower(),
                            "no school",
                            "no lunch",
                            "early dismissal",

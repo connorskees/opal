@@ -592,7 +592,6 @@ class Opal:
             recipients: str or list of str recipients of email
             sender: str Email to be sent from
             password: str Sender's password
-            image_path: str Path to image file to attach
             video_path: str Path to video file to attach
 
         Returns:
@@ -615,13 +614,21 @@ class Opal:
         msg.attach(part1)
 
         if self.email_image is not None:
-            image = MIMEImage(read_file(self.email_image))
-            image.add_header('Content-Disposition', 'attachment', filename=os.path.basename(image_path))
-            msg.attach(image)
+            try:
+                image = MIMEImage(read_file(self.email_image))
+                image.add_header('Content-Disposition',
+                                 'attachment',
+                                 filename=os.path.basename(self.email_image))
+                msg.attach(image)
+            except FileNotFoundError:
+                warnings.warn('Unable to attach image because the file was not '
+                              'found.')
 
         if video_path is not None:
             video = MIMEAudio(read_file(video_path), _subtype=what(video_path))
-            video.add_header('Content-Disposition', 'attachment', filename=os.path.basename(video_path))
+            video.add_header('Content-Disposition',
+                             'attachment',
+                             filename=os.path.basename(video_path))
             msg.attach(video)
 
 

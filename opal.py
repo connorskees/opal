@@ -69,7 +69,7 @@ class Opal:
         self.line = "-"*80
 
         self.meal = ""
-        self.driver: webdriver # defined in start_driver()
+        self.driver: webdriver  # defined in start_driver()
 
         self.special_events = ("Holiday Dinner", "Tasty Bites", "Food Fusion")
         self.special_event_nouns = ("You", "Your first born child",
@@ -82,7 +82,7 @@ class Opal:
                                'Plentiful'),
                 'nouns': ('An entire pumpkin'),
             },
-            'Holiday Dinner': { # Christmas
+            'Holiday Dinner': {  # Christmas
                 'adjectives': ('Festive', 'Merry'),
                 'nouns': ('A hippopotamus', 'Your two front teeth'),
             },
@@ -112,15 +112,16 @@ class Opal:
                                 'w/Lettuce, Tomato & Sauce')
         self.suffixes_add = ()
 
-        self.adjectives_remove = ("Bite Sized", "Bold", "Chilled", "Citrusy",
-                                  "Creamy", "Crispy", "Flavorful", "Fresh Sliced",
-                                  "Freshly Baked", "Garden", "Golden", "Home Style",
-                                  "Homestyle", "Homemade", "Juicy", "Luscious",
-                                  "Orange Kissed", "Oven Baked", "Baked", "Refreshing",
-                                  "Savory", "Seasoned", "Sliced", "Spicy", "Swedish",
-                                  "Tangy", "Tropical", "Warm", "Blended", "Mandarin",
-                                  "Roasted", "Vegetarian", "Steamed", "Soft",
-                                  "Mediterranean", "Citrus", "Oven", "Crisp", "Beefy",
+        self.adjectives_remove = (
+            "Bite Sized", "Bold", "Chilled", "Citrusy",
+            "Creamy", "Crispy", "Flavorful", "Fresh Sliced",
+            "Freshly Baked", "Garden", "Golden", "Home Style",
+            "Homestyle", "Homemade", "Juicy", "Luscious",
+            "Orange Kissed", "Oven Baked", "Baked", "Refreshing",
+            "Savory", "Seasoned", "Sliced", "Spicy", "Swedish",
+            "Tangy", "Tropical", "Warm", "Blended", "Mandarin",
+            "Roasted", "Vegetarian", "Steamed", "Soft",
+            "Mediterranean", "Citrus", "Oven", "Crisp", "Beefy",
                                  )
         self.adjectives_add = ('100% Real Beef', 'Adequate', 'Aged', 'Ambitious',
                                'Antimicrobial', 'Artisinal', 'Average', 'Beefy',
@@ -170,58 +171,57 @@ class Opal:
                                'Crusty', 'Your Mom\'s Legs\'', 'Sickening',
                                'No Cap', 'Fun-Filled', 'Suite', 'Sweaty',
                                'Hedonsitic', 'Upsetting', 'Offensive',
-
                               )
 
         self.emails_dict = {
-            '2020': {"20calhse@kids.udasd.org", # Searia Calhoun
-                     "20skeeco@kids.udasd.org", # Connor Skees
-                     "20etzwem@kids.udasd.org", # Emily Etzweiler
-                     "20schaha@kids.udasd.org", # Hannah Schade
-                     "20ayerma@kids.udasd.org", # Macklin Ayers
-                     "20kerwsa@kids.udasd.org", # Sam Kerwin
-                     "20schima@kids.udasd.org", # Rosie Schiano
-                     "20wiesto@kids.udasd.org", # Torie Wiest
-                     "20fausna@kids.udasd.org", # Nathan Faust
-                     "20smitni@kids.udasd.org", # Nick Smith
-                     "20buffni@kids.udasd.org", # Nick Buffington
-                     "20dunkma@kids.udasd.org", # Mason Dunkle
-                     "20daubka@kids.udasd.org", # Kaylob Dauberman
-                     "20mattka@kids.udasd.org", # Kade Matter
+            '2020': {"20calhse@kids.udasd.org",  # Searia Calhoun
+                     "20skeeco@kids.udasd.org",  # Connor Skees
+                     "20etzwem@kids.udasd.org",  # Emily Etzweiler
+                     "20schaha@kids.udasd.org",  # Hannah Schade
+                     "20ayerma@kids.udasd.org",  # Macklin Ayers
+                     "20kerwsa@kids.udasd.org",  # Sam Kerwin
+                     "20schima@kids.udasd.org",  # Rosie Schiano
+                     "20wiesto@kids.udasd.org",  # Torie Wiest
+                     "20fausna@kids.udasd.org",  # Nathan Faust
+                     "20smitni@kids.udasd.org",  # Nick Smith
+                     "20buffni@kids.udasd.org",  # Nick Buffington
+                     "20dunkma@kids.udasd.org",  # Mason Dunkle
+                     "20daubka@kids.udasd.org",  # Kaylob Dauberman
+                     "20mattka@kids.udasd.org",  # Kade Matter
                     },
 
-            '2019': {"19sampca@kids.udasd.org", # Cailen Sample
-                     "19kingza@kids.udasd.org", # Zane King
-                     "19millva@kids.udasd.org", # Vaughn Miller
-                     "19lenkle@kids.udasd.org", # Lea Lenker
-                     "19wolfpr@kids.udasd.org", # Preston Wolfe
-                     "19zimmda@kids.udasd.org", # Dane Zimmerman
-                     "19bordry@kids.udasd.org", # Ryan Bordner,
-                     "19shadka@kids.udasd.org", # Kaitlyn Shade
-                     "19woodch@kids.udasd.org", # Christopher Woodward
-                     "19welkbr@kids.udasd.org", # Brock Welker
-                     "19raupbe@kids.udasd.org", # Betty Raup
-                     "19margja@kids.udasd.org", # Jake Margetanski
-                     "19roheal@kids.udasd.org", # Alexia Rohena
-                     "19tappmy@kids.udasd.org", # Mykenzie Tapper
-                     "19foxem@kids.udasd.org",  # Emily Fox
-                     "19deibsha@kids.udasd.org",# Shantel Deibert-Fye
-                     "19hochka@kids.udasd.org", # Kate Hoch
-                     "19durasa@kids.udasd.org", # Samaria Duran
-                     "19snydde@kids.udasd.org", # Destin Snyder
-                     "19kennzo@kids.udasd.org", # Zoe Kennerly
-                     "19millma@kids.udasd.org", # Madison Miller
+            '2019': {"19sampca@kids.udasd.org",  # Cailen Sample
+                     "19kingza@kids.udasd.org",  # Zane King
+                     "19millva@kids.udasd.org",  # Vaughn Miller
+                     "19lenkle@kids.udasd.org",  # Lea Lenker
+                     "19wolfpr@kids.udasd.org",  # Preston Wolfe
+                     "19zimmda@kids.udasd.org",  # Dane Zimmerman
+                     "19bordry@kids.udasd.org",  # Ryan Bordner,
+                     "19shadka@kids.udasd.org",  # Kaitlyn Shade
+                     "19woodch@kids.udasd.org",  # Christopher Woodward
+                     "19welkbr@kids.udasd.org",  # Brock Welker
+                     "19raupbe@kids.udasd.org",  # Betty Raup
+                     "19margja@kids.udasd.org",  # Jake Margetanski
+                     "19roheal@kids.udasd.org",  # Alexia Rohena
+                     "19tappmy@kids.udasd.org",  # Mykenzie Tapper
+                     "19foxem@kids.udasd.org",   # Emily Fox
+                     "19deibsha@kids.udasd.org", # Shantel Deibert-Fye
+                     "19hochka@kids.udasd.org",  # Kate Hoch
+                     "19durasa@kids.udasd.org",  # Samaria Duran
+                     "19snydde@kids.udasd.org",  # Destin Snyder
+                     "19kennzo@kids.udasd.org",  # Zoe Kennerly
+                     "19millma@kids.udasd.org",  # Madison Miller
                     },
 
-            'teachers': {"heathj@udasd.org",    # Mr. Heath
-                         "smithv@udasd.org",    # Mrs. Smith
+            'teachers': {"heathj@udasd.org",     # Mr. Heath
+                         "smithv@udasd.org",     # Mrs. Smith
                         },
 
-            'other': {"connor1skees@gmail.com", # Connor Skees (personal)
-                      "bettyraup@gmail.com",    # Betty Raup (personal)
+            'other': {"connor1skees@gmail.com",  # Connor Skees (personal)
+                      "bettyraup@gmail.com",     # Betty Raup (personal)
                      },
 
-            'debug': {"20skeeco@kids.udasd.org"}# Used during --send
+            'debug': {"20skeeco@kids.udasd.org"} # Used during --send
             }
         self._validate_emails(self.emails_dict)
         self.emails = (self.emails_dict['2020']
@@ -261,8 +261,8 @@ class Opal:
         """Creates the driver variable and starts selenium"""
         options = webdriver.ChromeOptions()
         prefs = {
-            'profile.managed_default_content_settings.images':2,
-            'disk-cache-size':4096
+            'profile.managed_default_content_settings.images': 2,
+            'disk-cache-size': 4096
         }
         options.add_experimental_option("prefs", prefs)
 
@@ -893,6 +893,7 @@ def read_csv(csv_file: str, flat: bool = False) -> List[List[str]]:
         import os
         import warnings
     """
+    
 
     if not csv_file.endswith(".csv"):
         csv_file = f"{csv_file}.csv"

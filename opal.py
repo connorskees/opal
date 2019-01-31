@@ -169,7 +169,8 @@ class Opal:
                                'Damp', 'Socially Inadequate', 'Wet', 'Musty',
                                'Crusty', 'Your Mom\'s Legs\'', 'Sickening',
                                'No Cap', 'Fun-Filled', 'Suite', 'Sweaty',
-                               'Hedonsitic'
+                               'Hedonsitic', 'Upsetting', 'Offensive',
+
                               )
 
         self.emails_dict = {

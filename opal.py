@@ -371,7 +371,7 @@ class Opal:
 
     @property
     def day(self) -> str:
-        """Return the self.now in dd weekday (ex. 03 Mon, 17 Tue, etc.)"""
+        """Return self.now in `%d %a` form (ex. 03 Mon, 17 Tue, etc.)"""
         return self.now.strftime("%d %a")
 
     @property

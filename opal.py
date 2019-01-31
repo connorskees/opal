@@ -17,7 +17,7 @@ from sndhdr import what
 import smtplib
 import sys
 import time
-from typing import List, Tuple, Union
+from typing import List, Optional, Tuple, Union
 import warnings
 
 from selenium import webdriver
@@ -39,12 +39,12 @@ class Opal:
                  is_test: bool,
                  is_tomorrow: bool,
                  is_yesterday: bool,
-                 add_days: int,
-                 custom_date: Tuple[str, str, str],
-                 forced_adjectives: List[str],
+                 add_days: Optional[int],
+                 custom_date: Optional[Tuple[str, str, str]],
+                 forced_adjectives: Optional[List[str]],
                  is_test_email: bool,
                  gui: bool,
-                 is_two_hour_delay: bool):
+                 is_two_hour_delay: bool) -> None:
 
         self.start = time.time()
 
@@ -248,14 +248,14 @@ class Opal:
         self.base_url = "https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/"
         self.url = f"{self.base_url}{url_date}"
 
-    def __del__(self):
+    def __del__(self) -> None:
         try:
             self.driver.quit()
         except AttributeError:
             pass
         print(f"Ran for {self.time_ran}")
 
-    def start_driver(self):
+    def start_driver(self) -> webdriver:
         """Creates the driver variable and starts selenium"""
         options = webdriver.ChromeOptions()
         prefs = {
@@ -435,7 +435,7 @@ class Opal:
                 self.meal = i.text
                 break
 
-    def validate_meal(self):
+    def validate_meal(self) -> bool:
         """Determines if the meal exists and is usable"""
         day = self.day
         meal = self.meal
@@ -463,7 +463,7 @@ class Opal:
             return False
         return True
 
-    def clean_meal(self):
+    def clean_meal(self) -> None:
         """Makes changes to meal"""
         self.remove_adjectives_and_suffixes()
         if not self.is_dry:
@@ -481,21 +481,21 @@ class Opal:
         if not self.is_test:
             self.meal = self.meal.replace("\n", "<br />")
 
-    def remove_adjectives_and_suffixes(self):
+    def remove_adjectives_and_suffixes(self) -> None:
         """Removes adjectives and suffixes"""
         for adj in self.suffixes_remove+self.adjectives_remove:
             if adj == "Crisp" and self.meal.find("Apple Crisp") > -1:
                 continue
             self.meal = self.meal.replace(adj, "")
 
-    def add_special_events(self):
+    def add_special_events(self) -> None:
         """Adds special event nouns if special event"""
         for event in self.special_events:
             if event in self.meal:
                 random_noun = random.choice(self.special_event_nouns)
                 self.meal = self.meal.replace("Milk", f"{random_noun}\nMilk")
 
-    def meal_replacements(self):
+    def meal_replacements(self) -> None:
         """Makes manual replacements for clarity"""
         replacements = {
             "Tasty Bites\n": "", # 'tasty bites' makes no sense to me
@@ -533,7 +533,7 @@ class Opal:
         for original, replacement in replacements.items():
             self.meal = self.meal.replace(original, replacement)
 
-    def add_adjectives(self):
+    def add_adjectives(self) -> None:
         """Randomly assigns adjectives to each food item"""
         skip = ("or", "Recipe of the Month", "\n") + self.no_lunch_nouns + self.special_event_nouns
         f_adj = self.forced_adjectives
@@ -541,7 +541,7 @@ class Opal:
 
         # add adjective
         adjectives_yesterday = read_csv("used_adjectives.csv", flat=True)
-        adjectives_used = []
+        adjectives_used: List[str] = []
         for index, value in enumerate(self.meal):
             while True:
                 if value in skip:
@@ -579,7 +579,7 @@ class Opal:
                        override=True,
                        verbose=False)
 
-    def add_forced_adjectives(self):
+    def add_forced_adjectives(self) -> None:
         """Adds forced adjectives"""
 
     def send_email(self, video_path: str = None) -> None:
@@ -649,14 +649,14 @@ class Opal:
         noun_w_adj = '\n'.join(f'{adj} {noun}' for adj in self.adjectives_add)
         print(f"{self.line}\n{noun_w_adj}\n{self.line}")
 
-    def exit_driver(self):
+    def exit_driver(self) -> bool:
         """Exit driver (really only used to exit during unit testing)"""
         if self.driver:
             self.driver.quit()
             return True
         return False
 
-def main():
+def main() -> None:
     """main() function for CLI"""
     parser = argparse.ArgumentParser()
 
@@ -726,7 +726,7 @@ def main():
     args = parser.parse_args()
     sys.stdout.write(str(handle_args(args)))
 
-def handle_args(args):
+def handle_args(args) -> str:
     """
     Determines if it should run as a test and which days to scrape.
     Calls the functions real_meal(), test_meal(), meal_range() based on CLI input
@@ -758,7 +758,7 @@ def handle_args(args):
         print("\nInterrupt recieved. Exiting now...")
     return ''
 
-def real_meal(opal: Opal):
+def real_meal(opal: Opal) -> None:
     """Used for actually sending email"""
     opal.login()
     while True:
@@ -795,7 +795,7 @@ def real_meal(opal: Opal):
         print("Sleeping for 1 hour...")
         time.sleep(60*60)
 
-def test_meal(opal: Opal):
+def test_meal(opal: Opal) -> None:
     """Prints meal to console"""
     if opal.is_weekend:
         print(f"{opal.line}\nNo lunch: Weekend\n{opal.line}")
@@ -875,7 +875,7 @@ def create_csv(data, **kwargs):
     if run:
         os.popen(f"{name}")
 
-def read_csv(csv_file, flat=False):
+def read_csv(csv_file: str, flat: bool = False) -> List[List[str]]:
     """
     Read data from csv
 
@@ -905,7 +905,7 @@ def read_csv(csv_file, flat=False):
         warnings.warn(f"Could not locate '{csv_file}'")
         return [[]] # it shouldn't prevent the email even if it can't find the file
 
-def read_file(path_to_file: str) -> str:
+def read_file(path_to_file: str) -> Union[bytes, str]:
     """
     Read file and return it as str
 

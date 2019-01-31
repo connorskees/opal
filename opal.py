@@ -27,7 +27,7 @@ from selenium.common.exceptions import NoSuchElementException
 # TODO: better handling of validate_emails (--strict? raises exception instead of warning)
 # TODO: holiday adjectives
 
-__version__ = "3.2.3"
+__version__ = "4.0.0"
 
 
 class Opal:

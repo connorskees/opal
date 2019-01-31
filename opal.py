@@ -575,8 +575,31 @@ class Opal:
     def add_forced_adjectives(self):
         """Adds forced adjectives"""
 
-    def send_email(self) -> None:
-        """Sends email"""
+    def send_email(self, image_path: str = None, video_path: str = None) -> None:
+        """
+        Send an email
+
+        Args:
+            subject: str email subject
+            text: str email text
+            recipients: str or list of str recipients of email
+            sender: str
+            password: str
+            image_path: str Path to image file to attach
+            video_path: str Path to video file to attach
+
+        Returns:
+            None
+
+        Dependencies:
+            from email.mime.multipart import MIMEMultipart
+            from email.mime.audio import MIMEAudio
+            from email.mime.image import MIMEImage
+            from email.mime.text import MIMEText
+            import smtplib
+            import os
+            from sndhdr import what
+        """
         msg = MIMEMultipart('alternative')
         msg['Subject'] = f"{self.day} Lunch"
         msg['From'] = "lunchladyopal@gmail.com"
@@ -584,8 +607,18 @@ class Opal:
         part1 = MIMEText(self.meal, 'html')
         msg.attach(part1)
 
-        mail = smtplib.SMTP('smtp.gmail.com', 587)
+        if image_path is not None:
+            image = MIMEImage(read_file(image_path))
+            image.add_header('Content-Disposition', 'attachment', filename=os.path.basename(image_path))
+            msg.attach(image)
 
+        if video_path is not None:
+            video = MIMEAudio(read_file(video_path), _subtype=what(video_path))
+            video.add_header('Content-Disposition', 'attachment', filename=os.path.basename(video_path))
+            msg.attach(video)
+
+
+        mail = smtplib.SMTP('smtp.gmail.com', 587)
 
         mail.ehlo()
 

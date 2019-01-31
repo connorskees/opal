@@ -468,7 +468,7 @@ class Opal:
         if not self.is_dry:
             self.add_adjectives()
 
-        self.meal.append(f"{self.footer}")
+        self.meal.append(self.footer)
         self.meal = "\n".join(self.meal)
         self.meal = self.meal.replace("  ", " ").strip()
 
@@ -503,6 +503,7 @@ class Opal:
             "Nachos Waffle Cone": "Nachos in a Waffle Cone",
             "Turkey Bacon Club Pretzel Melt": "Turkey and Bacon Pretzel Melt",
             "Pineapple Tidbits": "Pineapple Bites",
+            "Beef & Cheese Walking w/Nacho Doritos": "Beef & Cheese Walking Taco w/ Nacho Doritos",
 
             # standardize no lunch meals for potential future use
             "No School-": "No School:",

@@ -43,7 +43,8 @@ class Opal:
                  custom_date: Tuple[str, str, str],
                  forced_adjectives: List[str],
                  is_test_email: bool,
-                 gui: bool):
+                 gui: bool,
+                 is_two_hour_delay: bool):
 
         self.start = time.time()
 
@@ -56,6 +57,9 @@ class Opal:
         self.forced_adjectives = forced_adjectives
         self.is_test_email = is_test_email
         self.gui = gui
+
+        two_hour_delay_schedule = r"two_hour_delay_schedule.png"
+        self.email_image = two_hour_delay_schedule if is_two_hour_delay else None
 
         if is_tomorrow:
             self.add_days = 1
@@ -578,7 +582,7 @@ class Opal:
     def add_forced_adjectives(self):
         """Adds forced adjectives"""
 
-    def send_email(self, image_path: str = None, video_path: str = None) -> None:
+    def send_email(self, video_path: str = None) -> None:
         """
         Send an email
 
@@ -610,8 +614,8 @@ class Opal:
         part1 = MIMEText(self.meal, 'html')
         msg.attach(part1)
 
-        if image_path is not None:
-            image = MIMEImage(read_file(image_path))
+        if self.email_image is not None:
+            image = MIMEImage(read_file(self.email_image))
             image.add_header('Content-Disposition', 'attachment', filename=os.path.basename(image_path))
             msg.attach(image)
 
@@ -708,6 +712,9 @@ def main():
 
     parser.add_argument("--gui", action="store_true", default=False, dest="gui",
                         help="Show gui when running.")
+
+    parser.add_argument("--delay", action="store_true", default=False,
+                        dest="is_two_hour_delay", help="Show gui when running.")
 
     args = parser.parse_args()
     sys.stdout.write(str(handle_args(args)))

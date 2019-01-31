@@ -235,7 +235,7 @@ class Opal:
                        f"\nCurrent {self.random_member_name}: {len(self.emails)}"
                        f"\nAdjectives: {len(self.adjectives_add)}"
                        f"\nLines of Code: {len(open('opal.py').readlines())}"
-                       f"\nFind out more here: https://github.com/ConnorSkees/opal")
+                       "\nFind out more here: https://github.com/ConnorSkees/opal")
 
         if self.is_test_email:
             self.footer += debug_email_message
@@ -334,6 +334,7 @@ class Opal:
         Dependencies:
             none
         """
+        # pylint: disable=R1705
         if seconds < 0:
             raise ValueError("`seconds` cannot be less than 0.")
 
@@ -449,10 +450,10 @@ class Opal:
             return False
 
         elif self._contains(meal.lower(),
-                           "no school",
-                           "no lunch",
-                           "early dismissal",
-                           "holiday break"):
+                            "no school",
+                            "no lunch",
+                            "early dismissal",
+                            "holiday break"):
 
             if not self.is_dry:
                 self.meal = random.choice(self.no_lunch_nouns)
@@ -541,7 +542,6 @@ class Opal:
         f_adj = self.forced_adjectives
         adjectives_add = self.adjectives_add
 
-        # add adjective
         adjectives_yesterday = read_csv("used_adjectives.csv", flat=True)
         adjectives_used: List[str] = []
         for index, value in enumerate(self.meal):
@@ -549,7 +549,7 @@ class Opal:
                 if value in skip:
                     break
                 choice = random.choice(adjectives_add)
-                # adjectives_used does not include adjectives_yesterday because
+                # `adjectives_used` doesn't include adjectives_yesterday because
                 # adjectives_used is put into csv later
                 if choice in adjectives_used + adjectives_yesterday:
                     if len(adjectives_used)+len(adjectives_yesterday) == len(adjectives_add):

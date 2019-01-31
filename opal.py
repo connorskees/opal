@@ -5,12 +5,15 @@ Send an email of today's lunch menu
 import argparse
 import csv
 from datetime import datetime, timedelta
+from email.mime.audio import MIMEAudio
+from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import itertools
 import os
 from pprint import pprint
 import random
+from sndhdr import what
 import smtplib
 import sys
 import time

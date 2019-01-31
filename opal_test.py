@@ -50,7 +50,7 @@ class TestOpal(unittest.TestCase):
                          "\nMilk")
         TEST_OPAL.find_meal()
         self.assertEqual(expected_meal, TEST_OPAL.meal)
-        TEST_OPAL.meal = "test_find_meal"
+        TEST_OPAL.meal = ""
         TEST_OPAL.exit_driver()
 
     def test_repeatable_meals(self):
@@ -110,6 +110,7 @@ class TestOpal(unittest.TestCase):
             'Baked Rigatoni',
             'Beef & Cheese Nachos',
             'Beef & Cheese Soft Tacos',
+            'Beef & Cheese Walking w/Nacho Doritos'
             'Beef Gyro w/Lettuce, Tomato & Sauce',
             'Beef Gyro with Lettuce, Tomato & Sauce',
             'Bite Sized Popcorn Chicken with Fresh Sliced Bread',

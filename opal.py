@@ -926,9 +926,3 @@ def read_file(path_to_file: str) -> Union[bytes, str]:
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-#

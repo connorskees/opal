@@ -471,6 +471,8 @@ class Opal:
         self.meal.append(self.footer)
         self.meal = "\n".join(self.meal)
         self.meal = self.meal.replace("  ", " ").strip()
+        if not self.is_test:
+            self.meal = self.meal.replace("\n", "<br />")
 
     def remove_adjectives_and_suffixes(self):
         """Removes adjectives and suffixes"""
@@ -545,7 +547,10 @@ class Opal:
                         warnings.warn("There are more terms than adjectives")
                         break
                     continue
-                self.meal[index] = f"{choice} {value}"
+                if self.is_test:
+                    self.meal[index] = f"{choice} {value}"
+                else:
+                    self.meal[index] = f"{choice} <strong>{value}</strong>"
                 adjectives_used.append(choice)
                 break
 
@@ -576,7 +581,7 @@ class Opal:
         msg['Subject'] = f"{self.day} Lunch"
         msg['From'] = "lunchladyopal@gmail.com"
 
-        part1 = MIMEText(self.meal)
+        part1 = MIMEText(self.meal, 'html')
         msg.attach(part1)
 
         mail = smtplib.SMTP('smtp.gmail.com', 587)

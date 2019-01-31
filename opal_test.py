@@ -25,7 +25,6 @@ TEST_OPAL = opal.Opal(driver_path="chromedriver.exe",
                       add_days=None,
                       custom_date=[2018, 12, 17],
                       forced_adjectives=None,
-                      date_range=None,
                       is_test_email=False,
                       gui=False)
 

@@ -51,15 +51,16 @@ class Opal:
         self.driver_path = driver_path
         self.start_time = start_time
         self.is_dry = is_dry
-        self.is_test = is_test
+        self.is_test = any((is_test, add_days, custom_date)) and not is_test_email
         self.add_days = add_days
         self.custom_date = custom_date
         self.forced_adjectives = forced_adjectives
         self.is_test_email = is_test_email
         self.gui = gui
 
-        two_hour_delay_schedule = r"two_hour_delay_schedule.png"
-        self.email_image = two_hour_delay_schedule if is_two_hour_delay else None
+
+
+        self.email_image = "two_hour_delay_schedule.png" if is_two_hour_delay else None
 
         if is_tomorrow:
             self.add_days = 1
@@ -122,7 +123,7 @@ class Opal:
             "Tangy", "Tropical", "Warm", "Blended", "Mandarin",
             "Roasted", "Vegetarian", "Steamed", "Soft",
             "Mediterranean", "Citrus", "Oven", "Crisp", "Beefy",
-                                 )
+            )
         self.adjectives_add = ('100% Real Beef', 'Adequate', 'Aged', 'Ambitious',
                                'Antimicrobial', 'Artisinal', 'Average', 'Beefy',
                                'Berry Berry Delicious',
@@ -240,11 +241,6 @@ class Opal:
         if self.is_test_email:
             self.footer += debug_email_message
             self.emails = self.emails_dict['debug']
-
-        self.is_test = (any((self.is_test,
-                             self.add_days,
-                             self.custom_date,))
-                        and not self.is_test_email)
 
         url_date = self.now.strftime("%Y-%m-%d")
         self.base_url = "https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/"
@@ -368,7 +364,7 @@ class Opal:
         current_time = datetime.now()
         if self.add_days:
             return current_time + timedelta(days=self.add_days)
-        elif self.custom_date:
+        if self.custom_date:
             return datetime(*self.custom_date)
         return current_time
 
@@ -385,7 +381,7 @@ class Opal:
     @property
     def is_weekend(self) -> bool:
         """Return true if the current day of the week is saturday or sunday"""
-        return True if self.now.weekday() in (5, 6) else False
+        return self.now.weekday() in (5, 6)
 
     def login(self, verbose: bool = True) -> None:
         """Gets past bot page on website"""
@@ -443,18 +439,19 @@ class Opal:
         day = self.day
         meal = self.meal
         driver = self.driver
+        no_lunch_signifiers = (
+            "no school",
+            "no lunch",
+            "early dismissal",
+            "holiday break",
+        )
 
         if meal.strip() == f"{day}\nLoading Menu" or not meal.strip():
             driver.refresh()
             time.sleep(2)
             return False
 
-        elif self._contains(meal.lower(),
-                            "no school",
-                            "no lunch",
-                            "early dismissal",
-                            "holiday break"):
-
+        if self._contains(meal.lower(), *no_lunch_signifiers):
             if not self.is_dry:
                 self.meal = random.choice(self.no_lunch_nouns)
             else:
@@ -462,7 +459,8 @@ class Opal:
                 return False
 
         elif "There is currently nothing on the menu today." in meal:
-            print("The lunch hasn't been planned out this far in the future.\n(no email)")
+            print(("The lunch hasn't been planned out this far in the future."
+                   "\n(no email)"))
             return False
         return True
 
@@ -893,8 +891,6 @@ def read_csv(csv_file: str, flat: bool = False) -> List[List[str]]:
         import os
         import warnings
     """
-    
-
     if not csv_file.endswith(".csv"):
         csv_file = f"{csv_file}.csv"
 

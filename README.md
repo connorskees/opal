@@ -4,7 +4,7 @@ Opal is a bot that scrapes the school's website for the current day's lunch. She
 The idea behind her is to have the lunch menu for the day on your iPad or phone at all times during the day :)
 
 ## Requirements
-Python 3.x
+Python 3.6+
 ### Modules:
 * selenium
 

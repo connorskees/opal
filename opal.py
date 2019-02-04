@@ -327,7 +327,7 @@ class Opal:
         Returns:
             str Time formatted with most suitable time unit
 
-        Dependencies:
+        Imports:
             none
         """
         # pylint: disable=R1705
@@ -823,7 +823,7 @@ def create_csv(data, **kwargs):
         path: path for file (does not include file name)
         run: run file after creation
 
-    Dependencies:
+    Imports:
         import csv
         import os
         import time
@@ -886,7 +886,7 @@ def read_csv(csv_file: str, flat: bool = False) -> List[List[str]]:
     Returns:
         list containing all data in a csv
 
-    Dependencies:
+    Imports:
         import csv
         import os
         import warnings

@@ -27,7 +27,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 # TODO: better handling of _validate_emails (--strict? raises exception instead of warning)
 
-__version__ = "4.0.0"
+__version__ = "4.1.0"
 
 
 class Opal:

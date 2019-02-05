@@ -172,12 +172,16 @@ class Opal:
                                'Actually likes talking on the phone',
                                'Single Hardworking Mother of 2',
                                'Proud Conservative Mother of 3', 'Widowed',
-                               'ANGERY!!', 'Brooding', 'Redneck',
+                               'ANGERY!!', 'Redneck',
                                'A little hip hop and country', 'Rusty', 'Wicked Awesome',
                                'Damp', 'Socially Inadequate', 'Wet', 'Musty',
                                'Crusty', 'Your Mom\'s Legs\'', 'Sickening',
                                'No Cap', 'Fun-Filled', 'Suite', 'Sweaty',
-                               'Hedonsitic', 'Upsetting', 'Offensive',
+                               'Hedonsitic', 'Upsetting', 'Offensive', 'Chunky',
+                               'Dripping with "Flavor"', 'Sour', 'Unfortunate',
+                               'You should probably just get pizza instead',
+                               'Harmful', 'Under Investigation', 'Doric',
+                               'Seagull...', 'Busy', 'British'
                               )
 
         self.emails_dict = {

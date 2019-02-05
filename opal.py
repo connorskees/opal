@@ -48,17 +48,21 @@ class Opal:
 
         self.start = time.time()
 
+        if is_tomorrow:
+            add_days = 1
+        elif is_yesterday:
+            add_days = -1
+        self.add_days = add_days
+
         self.driver_path = driver_path
         self.start_time = start_time
         self.is_dry = is_dry
-        self.is_test = any((is_test, add_days, custom_date)) and not is_test_email
-        self.add_days = add_days
         self.custom_date = custom_date
         self.forced_adjectives = forced_adjectives
         self.is_test_email = is_test_email
         self.gui = gui
 
-
+        self.is_test = any((is_test, add_days, custom_date)) and not is_test_email
 
         self.email_image = "two_hour_delay_schedule.png" if is_two_hour_delay else None
 
@@ -293,7 +297,11 @@ class Opal:
     @staticmethod
     def _validate_emails(emails_dict: dict) -> None:
         """Validate emails in emails_dict. Prints emails with issues"""
-        length_exceptions = ("19foxem@kids.udasd.org", "19deibsha@kids.udasd.org")
+        length_exceptions = ("19foxem@kids.udasd.org",
+                             "19deibsha@kids.udasd.org")
+
+        # uses `print()` instead of `warnings.warn()` because I feel it is
+        # easier to immediately read which emails are invalid
 
         for key, value in emails_dict.items():
             for email in value:
@@ -310,7 +318,8 @@ class Opal:
 
                 elif key == 'teachers':
                     if not email.endswith("udasd.org"):
-                        print(f"\nWARNING --|{email}|-- is not a udasd.org email\n")
+                        print((f"\nWARNING --|{email}|-- is not a udasd.org "
+                               "email\n"))
                     elif len(email) != 16 and email not in length_exceptions:
                         print((f"\nWARNING --|{email}|-- has an irregular"
                                "length and is not listed as an exception\n"))

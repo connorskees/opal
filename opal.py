@@ -492,7 +492,7 @@ class Opal:
         if not self.is_dry:
             self.add_adjectives()
 
-        self.meal.append(self.footer)
+        # self.meal.append(self.footer)
         self.meal = "\n".join(self.meal)
         self.meal = self.meal.replace("  ", " ").strip()
         if not self.is_test:

@@ -641,7 +641,8 @@ class Opal:
         template_replacements = {
             "{MEAL}": self.meal,
             "{DATE}": self.fancy_date,
-            "{DAY}": self.day
+            "{DAY}": self.day,
+            "{VERSION}": __version__
         }
 
         template = replace_all(self.html_template, template_replacements)

@@ -99,7 +99,8 @@ class Opal:
                                'aerobic capacity test that progressively ge'
                                'ts more difficult as it continues'),
                                'Swole', 'Tiring', 'Crowded', 'Underwhelming',
-                               'Sweet Victory', 'Confusing'),
+                               'Sweet Victory', 'Confusing', 'Aggressive',
+                               'Starting Quarterback'),
                 'nouns': ('Totino\'s Pizza Rolls', 'Touchdown'),
             },
             'Senior Citizen\'s Luncheon': {
@@ -590,7 +591,7 @@ class Opal:
                 if self.is_test:
                     self.meal[index] = f"{choice} {value}"
                 else:
-                    self.meal[index] = f"{choice} {value}"
+                    self.meal[index] = f"<strong>{choice}</strong> {value}"
                 adjectives_used.append(choice)
                 break
 

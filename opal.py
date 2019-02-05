@@ -100,7 +100,7 @@ class Opal:
                                 'ts more difficult as it continues'),
                                'Swole', 'Tiring', 'Crowded', 'Underwhelming',
                                'Sweet Victory', 'Confusing', 'Aggressive',
-                               'Starting Quarterback'),
+                               'Starting Quarterback', 'Super Boring'),
                 'nouns': ('Totino\'s Pizza Rolls', 'Touchdown'),
             },
             'Senior Citizen\'s Luncheon': {
@@ -125,7 +125,7 @@ class Opal:
                                 'w/Lettuce, Tomato & Sauce')
         self.suffixes_add = ()
 
-        self.adjectives_remove = sorted((
+        self.adjectives_remove = (
             "Bite Sized", "Bold", "Chilled", "Citrusy",
             "Creamy", "Crispy", "Flavorful", "Fresh Sliced",
             "Freshly Baked", "Garden", "Golden", "Home Style",
@@ -135,7 +135,7 @@ class Opal:
             "Tangy", "Tropical", "Warm", "Blended", "Mandarin",
             "Roasted", "Vegetarian", "Steamed", "Soft",
             "Mediterranean", "Citrus", "Oven", "Crisp", "Beefy",
-        ), key=len, reverse=True)
+        )
         self.adjectives_add = (
             '100% Real Beef', 'Adequate', 'Aged', 'Ambitious',
             'Antimicrobial', 'Artisinal', 'Average', 'Beefy',

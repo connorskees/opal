@@ -26,7 +26,6 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 # TODO: better handling of _validate_emails (--strict? raises exception instead of warning)
-# TODO: holiday adjectives
 
 __version__ = "4.0.0"
 
@@ -94,8 +93,9 @@ class Opal:
                 'nouns': ('A hippopotamus', 'Your two front teeth'),
             },
             'Super Bowl Party': {
-                'adjectives': ('My Hungry Guys\'', 'Tom Brady\'s'),
-                'nouns': ('Totino\'s Pizza Rolls'),
+                'adjectives': ('My Hungry Guys\'', 'Tom Brady\'s', 'Sporty',
+                               'Athletic', ),
+                'nouns': ('Totino\'s Pizza Rolls', 'Touchdown'),
             },
             'Senior Citizen\'s Luncheon': {
                 'adjectives': ('Elderly', 'Old', 'Mushy', ),
@@ -558,8 +558,14 @@ class Opal:
 
     def add_adjectives(self) -> None:
         """Randomly assigns adjectives to each food item"""
-        skip = ("or", "Recipe of the Month", "\n") + self.no_lunch_nouns + self.special_event_nouns
+        skip = ("or", "Recipe of the Month", "\n",
+                *self.no_lunch_nouns,
+                *self.special_event_nouns)
         f_adj = self.forced_adjectives
+        for holiday in self.holidays:
+            if holiday in ''.join(self.meal):
+                self.adjectives_add = self.holidays[holiday]['adjectives']
+                break
         adjectives_add = self.adjectives_add
 
         adjectives_yesterday = read_csv("used_adjectives.csv", flat=True)

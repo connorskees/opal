@@ -930,5 +930,23 @@ def read_file(path_to_file: str) -> Union[bytes, str]:
         with open(path_to_file, mode='rb') as file:
             return file.read()
 
+def replace_all(string: str, replacements: Dict[str, str]):
+    """
+    Replace all instances
+
+    Args:
+        string: str to be replaced
+        replacements: dict with keys to be replaced by values
+
+    Returns:
+        str with all replacements made
+
+    Dependencies:
+        import re
+    """
+    substrs = sorted(replacements, key=len, reverse=True)
+    regexp = re.compile('|'.join((re.escape(s) for s in substrs)))
+    return regexp.sub(lambda match: replacements[match.group(0)], string)
+
 if __name__ == "__main__":
     main()

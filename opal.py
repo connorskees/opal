@@ -13,11 +13,12 @@ import itertools
 import os
 from pprint import pprint
 import random
+import re
 from sndhdr import what
 import smtplib
 import sys
 import time
-from typing import List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 import warnings
 
 from selenium import webdriver
@@ -65,6 +66,7 @@ class Opal:
         self.is_test = any((is_test, add_days, custom_date)) and not is_test_email
 
         self.email_image = "two_hour_delay_schedule.png" if is_two_hour_delay else None
+        self.html_template = read_file("template.html")
 
         if is_tomorrow:
             self.add_days = 1
@@ -383,6 +385,11 @@ class Opal:
         return self.now.strftime("%d %a")
 
     @property
+    def fancy_date(self) -> str:
+        """Return self.now in `%B %m, %Y` form (ex. FEBRUARY 4, 2019)"""
+        return self.now.strftime("%B %m, %Y").replace(" 0", " ").upper()
+
+    @property
     def timestamp(self) -> str:
         """Return current time in str YYYY-MM-DD form"""
         return datetime.now().strftime('%Y-%m-%d')
@@ -619,7 +626,15 @@ class Opal:
         msg['Subject'] = f"{self.day} Lunch"
         msg['From'] = "lunchladyopal@gmail.com"
 
-        part1 = MIMEText(self.meal, 'html')
+        template_replacements = {
+            "{MEAL}": self.meal,
+            "{DATE}": self.fancy_date,
+            "{DAY}": self.day
+        }
+
+        template = replace_all(self.html_template, template_replacements)
+
+        part1 = MIMEText(template, 'html')
         msg.attach(part1)
 
         if self.email_image is not None:

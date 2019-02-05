@@ -573,7 +573,7 @@ class Opal:
                 if self.is_test:
                     self.meal[index] = f"{choice} {value}"
                 else:
-                    self.meal[index] = f"{choice} <strong>{value}</strong>"
+                    self.meal[index] = f"{choice} {value}"
                 adjectives_used.append(choice)
                 break
 

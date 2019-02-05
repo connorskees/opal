@@ -399,8 +399,8 @@ class Opal:
 
     @property
     def fancy_date(self) -> str:
-        """Return self.now in `%B %m, %Y` form (ex. FEBRUARY 4, 2019)"""
-        return self.now.strftime("%B %m, %Y").replace(" 0", " ").upper()
+        """Return self.now in `%B %d, %Y` form (ex. FEBRUARY 4, 2019)"""
+        return self.now.strftime("%B %d, %Y").replace(" 0", " ").upper()
 
     @property
     def timestamp(self) -> str:

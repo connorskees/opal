@@ -190,6 +190,8 @@ class Opal:
             'Harmful', 'Under Investigation', 'Doric',
             'Seagull', 'Busy', 'British', 'Curdled',
             'Delicious!', 'Student at Harvard', 'Malicious', 'NSFW',
+            'Suspicious', 'Tainted', 'Cold', 'Mushy', 'Youere\'r Mom\'s'
+        )
 
         self.emails_dict = {
             '2020': {"20calhse@kids.udasd.org",  # Searia Calhoun

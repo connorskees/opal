@@ -96,8 +96,8 @@ class Opal:
                 'adjectives': ('My Hungry Guys\'', 'Tom Brady\'s', 'Sporty',
                                'Athletic',
                                ('The FitnessGram Pacer Test is a multistage '
-                               'aerobic capacity test that progressively ge'
-                               'ts more difficult as it continues'),
+                                'aerobic capacity test that progressively ge'
+                                'ts more difficult as it continues'),
                                'Swole', 'Tiring', 'Crowded', 'Underwhelming',
                                'Sweet Victory', 'Confusing', 'Aggressive',
                                'Starting Quarterback'),
@@ -189,7 +189,8 @@ class Opal:
             'You should probably just get pizza instead',
             'Harmful', 'Under Investigation', 'Doric',
             'Seagull', 'Busy', 'British', 'Curdled',
-            'Delicious!', 'Student at Harvard'
+            'Delicious!', 'Student at Harvard', 'Malicious', 'NSFW',
+            'Suspicious', 'Tainted', 'Cold', 'Mushy'
         ), key=len, reverse=True)
 
         self.emails_dict = {

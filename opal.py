@@ -94,7 +94,12 @@ class Opal:
             },
             'Super Bowl Party': {
                 'adjectives': ('My Hungry Guys\'', 'Tom Brady\'s', 'Sporty',
-                               'Athletic', ),
+                               'Athletic',
+                               ('The FitnessGram Pacer Test is a multistage '
+                               'aerobic capacity test that progressively ge'
+                               'ts more difficult as it continues'),
+                               'Swole', 'Tiring', 'Crowded', 'Underwhelming',
+                               'Sweet Victory', 'Confusing'),
                 'nouns': ('Totino\'s Pizza Rolls', 'Touchdown'),
             },
             'Senior Citizen\'s Luncheon': {
@@ -183,7 +188,7 @@ class Opal:
             'You should probably just get pizza instead',
             'Harmful', 'Under Investigation', 'Doric',
             'Seagull', 'Busy', 'British', 'Curdled',
-            'Delicious!', ''
+            'Delicious!', 'Student at Harvard'
         ), key=len, reverse=True)
 
         self.emails_dict = {

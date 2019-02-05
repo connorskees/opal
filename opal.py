@@ -125,7 +125,7 @@ class Opal:
                                 'w/Lettuce, Tomato & Sauce')
         self.suffixes_add = ()
 
-        self.adjectives_remove = (
+        self.adjectives_remove = sorted((
             "Bite Sized", "Bold", "Chilled", "Citrusy",
             "Creamy", "Crispy", "Flavorful", "Fresh Sliced",
             "Freshly Baked", "Garden", "Golden", "Home Style",
@@ -135,8 +135,8 @@ class Opal:
             "Tangy", "Tropical", "Warm", "Blended", "Mandarin",
             "Roasted", "Vegetarian", "Steamed", "Soft",
             "Mediterranean", "Citrus", "Oven", "Crisp", "Beefy",
-            )
-        self.adjectives_add = sorted((
+        ), key=len, reverse=True)
+        self.adjectives_add = (
             '100% Real Beef', 'Adequate', 'Aged', 'Ambitious',
             'Antimicrobial', 'Artisinal', 'Average', 'Beefy',
             'Berry Berry Delicious',
@@ -190,8 +190,6 @@ class Opal:
             'Harmful', 'Under Investigation', 'Doric',
             'Seagull', 'Busy', 'British', 'Curdled',
             'Delicious!', 'Student at Harvard', 'Malicious', 'NSFW',
-            'Suspicious', 'Tainted', 'Cold', 'Mushy'
-        ), key=len, reverse=True)
 
         self.emails_dict = {
             '2020': {"20calhse@kids.udasd.org",  # Searia Calhoun

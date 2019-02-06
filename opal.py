@@ -190,7 +190,7 @@ class Opal:
             'Harmful', 'Under Investigation', 'Doric',
             'Seagull', 'Busy', 'British', 'Curdled',
             'Delicious!', 'Student at Harvard', 'Malicious', 'NSFW',
-            'Suspicious', 'Tainted', 'Cold', 'Mushy', 'Youere\'r Mom\'s'
+            'Suspicious', 'Tainted', 'Cold', 'Mushy', 'Youere\'r Mom\'s',
         )
 
         self.emails_dict = {
@@ -542,23 +542,52 @@ class Opal:
                 self.meal = self.meal.replace("Milk", f"{random_noun}\nMilk")
 
     def meal_replacements(self) -> None:
-        """Makes manual replacements for clarity"""
+        """
+        These are meal replacements that target specific food items.
+        They have been added over time as weirdly worded foods were found
+        and reworded for clarity.
+
+        These replacements are made before adjectives are added and during
+        dry meals.
+        """
         replacements = {
-            "Tasty Bites\n": "", # 'tasty bites' makes no sense to me
+            # I *HATE* the ampersand
+            "&": "and",
+
+            # This abbreviation is annoying
+            "w/": "with",
+
+            # 'tasty bites' makes no sense to me
+            "Tasty Bites\n": "",
+
+            # often mispronounced :)
             "Beef Gyro": "Beef Gyro (pronounced yee-ro)",
-            "Food Fusion": "Food Fusion:", # makes no sense without colon
-            "Popcorn Chicken Bowl Waffle Cone": "Popcorn Chicken in a Waffle Cone",
+
+            # makes no sense without colon
+            "Food Fusion": "Food Fusion:",
+
+            # 'nacho' is redundant and misleading (nacho flavored)
             "Nacho Doritos": "Doritos",
-            "Grilled Cheese Sandwich": "Grilled Cheese", #sandwich is weird to say
-            "Milk": "Milk Carton", # avoid "Mrs. Smith's Milk"
-            "&": "and", # I *HATE* the ampersand
-            "w/": "with", # This abbreviation is annoying
-            "Pasta and Meat Sauce": "Pasta with Meat Sauce",
-            "Salisbury Steak and Bread": "Salisbury Steak with Bread",
-            "Nachos Waffle Cone": "Nachos in a Waffle Cone",
+
+            # `sandwich` is weird to say
+            "Grilled Cheese Sandwich": "Grilled Cheese",
+
+            # avoid "Mrs. Smith's Milk"
+            "Milk": "Milk Carton",
+
+            # more natural with 'with' than 'and'
+            "Pasta & Meat Sauce": "Pasta with Meat Sauce",
+            "Salisbury Steak & Bread": "Salisbury Steak with Bread",
+
+            # this is weirdly worded
             "Turkey Bacon Club Pretzel Melt": "Turkey and Bacon Pretzel Melt",
+            "Beef & Cheese Walking w/Nacho Doritos": ("Beef & Cheese Walking "
+                                                      "Taco w/ Nacho Doritos"),
+            "Popcorn Chicken Bowl Waffle Cone": "Popcorn Chicken in a Waffle Cone",
+            "Nachos Waffle Cone": "Nachos in a Waffle Cone",
+
+            # sounds nicer (even though 'tidbits' is the brand name)
             "Pineapple Tidbits": "Pineapple Bites",
-            "Beef & Cheese Walking w/Nacho Doritos": "Beef & Cheese Walking Taco w/ Nacho Doritos",
 
             # standardize no lunch meals for potential future use
             "No School-": "No School:",
@@ -576,8 +605,7 @@ class Opal:
             "No School-Faculty In-service": "No School: Faculty In-Service",
         }
 
-        for original, replacement in replacements.items():
-            self.meal = self.meal.replace(original, replacement)
+        self.meal = replace_all(self.meal, replacements)
 
     def add_adjectives(self) -> None:
         """Randomly assigns adjectives to each food item"""

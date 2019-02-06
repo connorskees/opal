@@ -271,3 +271,25 @@ class TestOpal(unittest.TestCase):
         TEST_OPAL.meal = "\n".join(raw_food)
         TEST_OPAL.clean_meal()
         self.assertEqual(TEST_OPAL.meal, "\n".join(dry_food))
+
+class TestFormatSeconds(unittest.TestCase):
+    def test_format_seconds(self):
+        self.assertEqual(TEST_OPAL._format_seconds(0), "0 seconds")
+        self.assertEqual(TEST_OPAL._format_seconds(.12345), "0.123 seconds")
+        self.assertEqual(TEST_OPAL._format_seconds(59), "59 seconds")
+        self.assertEqual(TEST_OPAL._format_seconds(59.12345), "59.123 seconds")
+        self.assertEqual(TEST_OPAL._format_seconds(60), "1.0 minutes")
+        self.assertEqual(TEST_OPAL._format_seconds(90), "1.5 minutes")
+        self.assertEqual(TEST_OPAL._format_seconds(180), "3.0 minutes")
+        self.assertEqual(TEST_OPAL._format_seconds(60*60), "1.0 hours")
+        self.assertEqual(TEST_OPAL._format_seconds(60*60*4), "4.0 hours")
+        self.assertEqual(TEST_OPAL._format_seconds(60*60*4.45), "4.45 hours")
+        self.assertEqual(TEST_OPAL._format_seconds(60*60*24), "1.0 days")
+        self.assertEqual(TEST_OPAL._format_seconds(60*60*24*5), "5.0 days")
+        self.assertEqual(TEST_OPAL._format_seconds(60*60*24*365), "1.0 years")
+        self.assertEqual(TEST_OPAL._format_seconds(60*60*24*365*666), "666.0 years")
+
+    def test_errors(self):
+        self.assertRaises(ValueError, TEST_OPAL._format_seconds, -1)
+        self.assertRaises(TypeError, TEST_OPAL._format_seconds, "xoxo")
+        self.assertRaises(TypeError, TEST_OPAL._format_seconds, "0")

@@ -194,6 +194,11 @@ class Opal:
         )
 
         self.emails_dict = {
+            '2021': {
+                '21daubsi@kids.udasd.org',  # Sierra Dauberman
+                '21englka@kids.udasd.org',  # Katy Engle
+            },
+
             '2020': {
                 "20calhse@kids.udasd.org",  # Searia Calhoun
                 "20skeeco@kids.udasd.org",  # Connor Skees
@@ -252,6 +257,7 @@ class Opal:
         self._validate_emails(self.emails_dict)
         self.emails = (
             set()
+            |self.emails_dict['2021']
             |self.emails_dict['2020']
             |self.emails_dict['2019']
             |self.emails_dict['teachers']

@@ -322,6 +322,14 @@ class Opal:
         driver = webdriver.Chrome(self.driver_path, options=options)
         return driver
 
+    def print_used(self) -> None:
+        """
+        Print yesterday's adjectives to console
+        """
+        used = sorted(read_csv("used_adjectives.csv", flat=True))
+        adjectives = "\n".join(adj for adj in used)
+        print(f"{self.line}\n{adjectives}\n{self.line}")
+
     @staticmethod
     def _contains(string: str, *args) -> bool:
         """Checks if string contains arbitrary number of arguments"""
@@ -329,15 +337,6 @@ class Opal:
             if arg in string:
                 return True
         return False
-
-    @staticmethod
-    def print_used() -> None:
-        """
-        Print yesterday's adjectives to console
-        """
-        adjectives = "\n".join(adj for adj in sorted(read_csv("used_adjectives.csv", flat=True)))
-        line = "-"*80
-        print(f"{line}\n{adjectives}\n{line}")
 
     @staticmethod
     def _validate_emails(emails_dict: dict) -> None:

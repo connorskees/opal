@@ -542,7 +542,8 @@ class Opal:
 
     def remove_adjectives_and_suffixes(self) -> None:
         """Removes adjectives and suffixes"""
-        for adj in self.suffixes_remove+self.adjectives_remove:
+        for adj in sorted((*self.suffixes_remove, *self.adjectives_remove),
+                          key=len, reverse=True):
             if adj == "Crisp" and self.meal.find("Apple Crisp") > -1:
                 continue
             self.meal = self.meal.replace(adj, "")

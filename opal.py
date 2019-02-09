@@ -279,8 +279,15 @@ class Opal:
             |self.emails_dict['other']
         )
 
-        debug_email_message = ("\n\nThis is a debug email. Please reply if you "
-                               "were not expecting it.")
+        self.debug_email_message = ""
+        if not self.is_test and self.is_test_email:
+            self.debug_email_message = (
+                "<br />"
+                "<br />"
+                "This is a debug email."
+                " Please reply if you were not expecting it."
+            )
+
         self.footer = (
             f"\nOpal v{__version__}"
             f"\nCurrent {self.random_member_name}: {len(self.emails)}"
@@ -290,7 +297,6 @@ class Opal:
         )
 
         if self.is_test_email:
-            self.footer += debug_email_message
             self.emails = self.emails_dict['debug']
 
         url_date = self.now.strftime("%Y-%m-%d")
@@ -709,7 +715,8 @@ class Opal:
             "{MEAL}": self.meal,
             "{DATE}": self.fancy_date,
             "{DAY}": self.day,
-            "{VERSION}": __version__
+            "{VERSION}": __version__,
+            "{DEBUG_MESSAGE}": self.debug_email_message
         }
 
         template = replace_all(self.html_template, template_replacements)

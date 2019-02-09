@@ -133,7 +133,7 @@ class Opal:
         )
 
         self.suffixes_remove = (
-            'Florets', 'on a Bun', 'with Gravy','in a Cone',
+            'Florets', 'on a Bun', 'with Gravy', 'in a Cone',
             'on a Stick', 'with Fresh Bread',
             'with Lettuce, Tomato & Sauce',
             'w/Lettuce, Tomato & Sauce'
@@ -281,11 +281,13 @@ class Opal:
 
         debug_email_message = ("\n\nThis is a debug email. Please reply if you "
                                "were not expecting it.")
-        self.footer = (f"\nOpal v{__version__}"
-                       f"\nCurrent {self.random_member_name}: {len(self.emails)}"
-                       f"\nAdjectives: {len(self.adjectives_add)}"
-                       f"\nLines of Code: {len(open('opal.py').readlines())}"
-                       "\nFind out more here: https://github.com/ConnorSkees/opal")
+        self.footer = (
+            f"\nOpal v{__version__}"
+            f"\nCurrent {self.random_member_name}: {len(self.emails)}"
+            f"\nAdjectives: {len(self.adjectives_add)}"
+            f"\nLines of Code: {len(open('opal.py').readlines())}"
+            "\nFind out more here: https://github.com/ConnorSkees/opal"
+        )
 
         if self.is_test_email:
             self.footer += debug_email_message

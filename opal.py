@@ -60,7 +60,7 @@ class Opal:
         self.is_test_email = is_test_email
         self.gui = gui
 
-        self.is_test = any((is_test, add_days, custom_date, not is_test_email))
+        self.is_test = any((is_test, add_days, custom_date)) and not is_test_email
 
         self.email_image = "two_hour_delay_schedule.png" if is_two_hour_delay else None
         self.html_template: str = read_file("dirty-template.html")

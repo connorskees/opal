@@ -25,9 +25,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 
-# TODO: better handling of _validate_emails (--strict? raises exception instead of warning)
-
-__version__ = "4.1.1"
+__version__ = "4.1.2"
 
 
 class Opal:
@@ -62,10 +60,10 @@ class Opal:
         self.is_test_email = is_test_email
         self.gui = gui
 
-        self.is_test = any((is_test, add_days, custom_date)) and not is_test_email
+        self.is_test = any((is_test, add_days, custom_date, not is_test_email))
 
         self.email_image = "two_hour_delay_schedule.png" if is_two_hour_delay else None
-        self.html_template = read_file("template.html")
+        self.html_template: str = read_file("dirty-template.html")
 
         if is_tomorrow:
             self.add_days = 1
@@ -267,16 +265,17 @@ class Opal:
 
             'debug': {
                 "20skeeco@kids.udasd.org",  # Used during --send
+                # "19sampca@kids.udasd.org",
             }
         }
         self._validate_emails(self.emails_dict)
         self.emails = (
             set()
-            |self.emails_dict['2021']
-            |self.emails_dict['2020']
-            |self.emails_dict['2019']
-            |self.emails_dict['teachers']
-            |self.emails_dict['other']
+            | self.emails_dict['2021']
+            | self.emails_dict['2020']
+            | self.emails_dict['2019']
+            | self.emails_dict['teachers']
+            | self.emails_dict['other']
         )
 
         self.debug_email_message = ""
@@ -300,7 +299,7 @@ class Opal:
             self.emails = self.emails_dict['debug']
 
         url_date = self.now.strftime("%Y-%m-%d")
-        self.base_url = "https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/"
+        self.base_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/"
         self.url = f"{self.base_url}{url_date}"
 
     def __del__(self) -> None:
@@ -464,8 +463,8 @@ class Opal:
             try:
                 # there used to be a terms and services checkbox
                 # below is the code for it:
-                # terms_checkbox = driver.find_element_by_css_selector("body main div input")
-                # driver.execute_script("arguments[0].click();", terms_checkbox)
+                # terms = driver.find_element_by_css_selector("main div input")
+                # driver.execute_script("arguments[0].click();", terms)
                 driver.find_element_by_css_selector("button.primary").click()
                 break
             except NoSuchElementException:
@@ -603,8 +602,8 @@ class Opal:
 
             # this is weirdly worded
             "Turkey Bacon Club Pretzel Melt": "Turkey and Bacon Pretzel Melt",
-            "Beef & Cheese Walking w/Nacho Doritos": ("Beef & Cheese Walking "
-                                                      "Taco w/ Nacho Doritos"),
+            "Beef & Cheese Walking w/Nacho Doritos": ("Beef & Cheese Walking T"
+                                                      "aco w/ Nacho Doritos"),
             "Popcorn Chicken Bowl Waffle Cone": "Popcorn Chicken in a Waffle Cone",
             "Nachos Waffle Cone": "Nachos in a Waffle Cone",
 
@@ -641,7 +640,7 @@ class Opal:
                 break
         adjectives_add = self.adjectives_add
 
-        adjectives_yesterday = read_csv("used_adjectives.csv", flat=True)
+        adjectives_yesterday: List[str] = read_csv("used_adjectives.csv", flat=True)
         adjectives_used: List[str] = []
         for index, value in enumerate(self.meal):
             while True:
@@ -986,7 +985,7 @@ def create_csv(data, **kwargs):
     if run:
         os.popen(f"{name}")
 
-def read_csv(csv_file: str, flat: bool = False) -> List[List[str]]:
+def read_csv(csv_file: str, flat: bool = False) -> Union[List[List[str]], List[str]]:
     """
     Read data from csv
 
@@ -1013,7 +1012,8 @@ def read_csv(csv_file: str, flat: bool = False) -> List[List[str]]:
             return data
     else:
         warnings.warn(f"Could not locate '{csv_file}'")
-        return [[]] # it shouldn't prevent the email even if it can't find the file
+        # it shouldn't prevent the email even if it can't find the file
+        return [[]]
 
 def read_file(path_to_file: str) -> Union[bytes, str]:
     """

@@ -819,14 +819,17 @@ def main() -> None:
     parser.add_argument("--send", action="store_true", dest="is_test_email",
                         default=False, help="Send a debug email.")
 
-    parser.add_argument("--used", "--show-used", action="store_true", default=False,
-                        dest="show_used", help="Show the adjectives used yesterday.")
+    parser.add_argument("--used", "--show-used", "--used-adjectives",
+                        action="store_true", default=False, dest="show_used",
+                        help="Show the adjectives used yesterday.")
 
-    parser.add_argument("--emails", "--show-emails", action="store_true", default=False,
-                        dest="show_emails", help="Print email dict to console.")
+    parser.add_argument("--emails", "--show-emails", action="store_true",
+                        default=False, dest="show_emails",
+                        help="Print email dict to console.")
 
-    parser.add_argument("--test-adjectives", action="store_true", default=False,
-                        dest="test_adjectives", help="Test all adjectives against noun.")
+    parser.add_argument("--test-adjectives", action="store_true",
+                        default=False, dest="test_adjectives",
+                        help="Test all adjectives against noun.")
 
     parser.add_argument("--gui", action="store_true", default=False, dest="gui",
                         help="Show gui when running.")
@@ -867,7 +870,7 @@ def handle_args(args) -> str:
 
     except KeyboardInterrupt:
         print("\nInterrupt recieved. Exiting now...")
-    return ''
+    return ''  # print nothing to console
 
 def real_meal(opal: Opal) -> None:
     """Used for actually sending email"""

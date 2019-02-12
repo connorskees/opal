@@ -200,10 +200,11 @@ class Opal:
             'Hedonsitic', 'Upsetting', 'Offensive', 'Chunky',
             'Dripping with "Flavor"', 'Sour', 'Unfortunate',
             'You should probably just get pizza instead',
-            'Harmful', 'Under Investigation', 'Doric',
+            'Harmful', 'Under Investigation', 'Doric Style',
             'Seagull', 'Busy', 'British', 'Curdled',
             'Delicious!', 'Student at Harvard', 'Malicious', 'NSFW',
             'Suspicious', 'Tainted', 'Cold', 'Mushy', 'Youere\'r Mom\'s',
+            'Byzantine', 'Ionian'
         )
 
         self.emails_dict = {

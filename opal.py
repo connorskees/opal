@@ -251,6 +251,7 @@ class Opal:
                 "19welkbr@kids.udasd.org",  # Brock Welker
                 "19wolfpr@kids.udasd.org",  # Preston Wolfe
                 "19zimmda@kids.udasd.org",  # Dane Zimmerman
+                "19campka@kids.udasd.org",  # Karli Campbell
             },
 
             'teachers': {
@@ -265,7 +266,6 @@ class Opal:
 
             'debug': {
                 "20skeeco@kids.udasd.org",  # Used during --send
-                # "19sampca@kids.udasd.org",
             }
         }
         self._validate_emails(self.emails_dict)

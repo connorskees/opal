@@ -133,6 +133,8 @@ class Opal:
             "https://www.youtube.com/watch?v=JbepN4dKLbU",
             # Bev 'N' Bob Wake Me Up Inside
             "https://www.youtube.com/watch?v=4Kc4Np1rdPc",
+            # Pokemon go to the polls
+            "https://www.youtube.com/watch?v=vwaiyjh1dGk",
         )
 
         self.suffixes_remove = (

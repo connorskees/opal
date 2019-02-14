@@ -128,6 +128,7 @@ class Opal:
             "https://www.youtube.com/watch?v=xO2gkQQ8SB0",
             "https://www.youtube.com/watch?v=_ieCjpmliSg",
             "https://www.youtube.com/watch?v=JbepN4dKLbU",
+            "https://www.youtube.com/watch?v=4Kc4Np1rdPc" # Bev 'N' Bob
         )
 
         self.suffixes_remove = (

@@ -125,10 +125,14 @@ class Opal:
 
         self.no_lunch_nouns = (
             "Starve!", "suffer.", "nothing lol",
+            # Go back to sleep and starve vine
             "https://www.youtube.com/watch?v=xO2gkQQ8SB0",
+            # Globgogabgalab
             "https://www.youtube.com/watch?v=_ieCjpmliSg",
+            # warm it up thats a 10.exe
             "https://www.youtube.com/watch?v=JbepN4dKLbU",
-            "https://www.youtube.com/watch?v=4Kc4Np1rdPc" # Bev 'N' Bob
+            # Bev 'N' Bob Wake Me Up Inside
+            "https://www.youtube.com/watch?v=4Kc4Np1rdPc",
         )
 
         self.suffixes_remove = (

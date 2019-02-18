@@ -42,7 +42,8 @@ class Opal:
                  forced_adjectives: Optional[List[str]],
                  is_test_email: bool,
                  gui: bool,
-                 is_two_hour_delay: bool) -> None:
+                 is_two_hour_delay: bool,
+                 is_raw: bool) -> None:
 
         self.start = time.time()
 
@@ -59,6 +60,7 @@ class Opal:
         self.forced_adjectives = forced_adjectives
         self.is_test_email = is_test_email
         self.gui = gui
+        self.is_raw = is_raw
 
         self.is_test = any((is_test, add_days, custom_date)) and not is_test_email
 
@@ -850,6 +852,9 @@ def main() -> None:
 
     parser.add_argument("--delay", action="store_true", default=False,
                         dest="is_two_hour_delay", help="Show gui when running.")
+
+    parser.add_argument("--raw", action="store_true", default=False,
+                        dest="is_raw", help="Give raw meal with no edits.")
 
     args = parser.parse_args()
     sys.stdout.write(str(handle_args(args)))

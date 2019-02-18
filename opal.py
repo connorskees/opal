@@ -541,21 +541,22 @@ class Opal:
 
     def clean_meal(self) -> None:
         """Makes changes to meal"""
-        self.remove_adjectives_and_suffixes()
-        if not self.is_dry:
-            self.add_special_events()
-        self.meal_replacements()
+        if not self.is_raw:
+            self.remove_adjectives_and_suffixes()
+            if not self.is_dry:
+                self.add_special_events()
+            self.meal_replacements()
 
-        self.meal = [m.strip() for m in self.meal.split("\n") if m != self.day]
+            self.meal = [m.strip() for m in self.meal.split("\n") if m != self.day]
 
-        if not self.is_dry:
-            self.add_adjectives()
+            if not self.is_dry:
+                self.add_adjectives()
 
-        # self.meal.append(self.footer)
-        self.meal = "\n".join(self.meal)
-        self.meal = self.meal.replace("  ", " ").strip()
-        if not self.is_test:
-            self.meal = self.meal.replace("\n", "<br />")
+            # self.meal.append(self.footer)
+            self.meal = "\n".join(self.meal)
+            self.meal = self.meal.replace("  ", " ").strip()
+            if not self.is_test:
+                self.meal = self.meal.replace("\n", "<br />")
 
     def remove_adjectives_and_suffixes(self) -> None:
         """Removes adjectives and suffixes"""

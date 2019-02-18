@@ -588,6 +588,10 @@ class Opal:
             # This abbreviation is annoying
             "w/": "with",
 
+            # there should be a space here
+            "w/Bread": "with Bread",
+            "w/Nacho": "with Nacho",
+
             # 'tasty bites' makes no sense to me
             "Tasty Bites\n": "",
 

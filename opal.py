@@ -215,7 +215,7 @@ class Opal:
             'Suspicious', 'Tainted', 'Cold', 'Mushy', 'Youere\'r Mom\'s',
             'Byzantine', 'Ionian', 'Lousy', 'Ungovernable',
             'Sad :(', 'Raw', 'Uncooked', 'Boiled', 'Republican',
-            'Ted Cruz\'s'
+            'Ted Cruz\'s', 'Ivy League', 'Tuff', 'Juice', 'Lofty', 'Girthy',
         )
 
         self.emails_dict = {

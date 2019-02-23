@@ -10,6 +10,7 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import itertools
+import json
 import os
 from pprint import pprint
 import random
@@ -219,68 +220,9 @@ class Opal:
             'Rambunctious'
         )
 
-        self.emails_dict = {
-            '2021': {
-                '21daubsi@kids.udasd.org',  # Sierra Dauberman
-                '21englka@kids.udasd.org',  # Katy Engle
-            },
+        with open("emails.json", mode="r", encoding="utf-8") as email_file:
+            emails_dict = json.load(email_file)
 
-            '2020': {
-                "20calhse@kids.udasd.org",  # Searia Calhoun
-                "20skeeco@kids.udasd.org",  # Connor Skees
-                "20etzwem@kids.udasd.org",  # Emily Etzweiler
-                "20schaha@kids.udasd.org",  # Hannah Schade
-                "20ayerma@kids.udasd.org",  # Macklin Ayers
-                "20kerwsa@kids.udasd.org",  # Sam Kerwin
-                "20schima@kids.udasd.org",  # Rosie Schiano
-                "20wiesto@kids.udasd.org",  # Torie Wiest
-                "20fausna@kids.udasd.org",  # Nathan Faust
-                "20smitni@kids.udasd.org",  # Nick Smith
-                "20buffni@kids.udasd.org",  # Nick Buffington
-                "20dunkma@kids.udasd.org",  # Mason Dunkle
-                "20daubka@kids.udasd.org",  # Kaylob Dauberman
-                "20mattka@kids.udasd.org",  # Kade Matter
-            },
-
-            '2019': {
-                "19deibsha@kids.udasd.org", # Shantel Deibert-Fye
-                "19durasa@kids.udasd.org",  # Samaria Duran
-                "19sampca@kids.udasd.org",  # Cailen Sample
-                "19kingza@kids.udasd.org",  # Zane King
-                "19millva@kids.udasd.org",  # Vaughn Miller
-                "19lenkle@kids.udasd.org",  # Lea Lenker
-                "19bordry@kids.udasd.org",  # Ryan Bordner,
-                "19shadka@kids.udasd.org",  # Kaitlyn Shade
-                "19woodch@kids.udasd.org",  # Christopher Woodward
-                "19raupbe@kids.udasd.org",  # Betty Raup
-                "19margja@kids.udasd.org",  # Jake Margetanski
-                "19roheal@kids.udasd.org",  # Alexia Rohena
-                "19tappmy@kids.udasd.org",  # Mykenzie Tapper
-                "19foxem@kids.udasd.org",   # Emily Fox
-                "19hochka@kids.udasd.org",  # Kate Hoch
-                "19snydde@kids.udasd.org",  # Destin Snyder
-                "19kennzo@kids.udasd.org",  # Zoe Kennerly
-                "19millma@kids.udasd.org",  # Madison Miller
-                "19welkbr@kids.udasd.org",  # Brock Welker
-                "19wolfpr@kids.udasd.org",  # Preston Wolfe
-                "19zimmda@kids.udasd.org",  # Dane Zimmerman
-                "19campka@kids.udasd.org",  # Karli Campbell
-            },
-
-            'teachers': {
-                "heathj@udasd.org",         # Mr. Heath
-                "smithv@udasd.org",         # Mrs. Smith
-            },
-
-            'other': {
-                "connor1skees@gmail.com",   # Connor Skees (personal)
-                "bettyraup@gmail.com",      # Betty Raup (personal)
-            },
-
-            'debug': {
-                "20skeeco@kids.udasd.org",  # Used during --send
-            }
-        }
         self._validate_emails(self.emails_dict)
         self.emails = (
             set()

@@ -221,7 +221,7 @@ class Opal:
         )
 
         with open("emails.json", mode="r", encoding="utf-8") as email_file:
-            self.emails_dict = {key:set(value) for key, value in json.load(email_file).items()}
+            self.emails_dict = {key: set(value) for key, value in json.load(email_file).items()}
 
         self._validate_emails(self.emails_dict)
         self.emails = (

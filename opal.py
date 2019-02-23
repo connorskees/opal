@@ -221,16 +221,16 @@ class Opal:
         )
 
         with open("emails.json", mode="r", encoding="utf-8") as email_file:
-            emails_dict = json.load(email_file)
+            self.emails_dict = {key:set(value) for key, value in json.load(email_file).items()}
 
-        self._validate_emails(emails_dict)
+        self._validate_emails(self.emails_dict)
         self.emails = (
             set()
-            | emails_dict['2021']
-            | emails_dict['2020']
-            | emails_dict['2019']
-            | emails_dict['teachers']
-            | emails_dict['other']
+            | self.emails_dict['2021']
+            | self.emails_dict['2020']
+            | self.emails_dict['2019']
+            | self.emails_dict['teachers']
+            | self.emails_dict['other']
         )
 
         self.debug_email_message = ""
@@ -251,7 +251,7 @@ class Opal:
         )
 
         if self.is_test_email:
-            self.emails = emails_dict['debug']
+            self.emails = self.emails_dict['debug']
 
         url_date = self.now.strftime("%Y-%m-%d")
         self.base_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/"
@@ -302,7 +302,7 @@ class Opal:
 
     @staticmethod
     def _validate_emails(emails_dict: dict) -> None:
-        """Validate emails in emails_dict. Prints emails with issues"""
+        """Validate emails in self.emails_dict. Prints emails with issues"""
         length_exceptions = ("19foxem@kids.udasd.org",
                              "19deibsha@kids.udasd.org")
 

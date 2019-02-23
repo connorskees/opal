@@ -223,14 +223,14 @@ class Opal:
         with open("emails.json", mode="r", encoding="utf-8") as email_file:
             emails_dict = json.load(email_file)
 
-        self._validate_emails(self.emails_dict)
+        self._validate_emails(emails_dict)
         self.emails = (
             set()
-            | self.emails_dict['2021']
-            | self.emails_dict['2020']
-            | self.emails_dict['2019']
-            | self.emails_dict['teachers']
-            | self.emails_dict['other']
+            | emails_dict['2021']
+            | emails_dict['2020']
+            | emails_dict['2019']
+            | emails_dict['teachers']
+            | emails_dict['other']
         )
 
         self.debug_email_message = ""
@@ -251,7 +251,7 @@ class Opal:
         )
 
         if self.is_test_email:
-            self.emails = self.emails_dict['debug']
+            self.emails = emails_dict['debug']
 
         url_date = self.now.strftime("%Y-%m-%d")
         self.base_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/"

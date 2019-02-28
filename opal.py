@@ -217,7 +217,7 @@ class Opal:
             'Byzantine', 'Ionian', 'Lousy', 'Ungovernable',
             'Sad :(', 'Raw', 'Uncooked', 'Boiled', 'Republican',
             'Ted Cruz\'s', 'Ivy League', 'Tuff', 'Juice', 'Lofty', 'Girthy',
-            'Rambunctious'
+            'Rambunctious', 'Steve Harvey\'s'
         )
 
         with open("emails.json", mode="r", encoding="utf-8") as email_file:

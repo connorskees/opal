@@ -66,7 +66,6 @@ class Opal:
         self.is_test = any((is_test, add_days, custom_date)) and not is_test_email
 
         self.email_image = "two_hour_delay_schedule.png" if is_two_hour_delay else None
-        self.html_template: str = read_file("dirty-template.html")
 
         if is_tomorrow:
             self.add_days = 1
@@ -678,7 +677,9 @@ class Opal:
             "{DEBUG_MESSAGE}": self.debug_email_message
         }
 
-        template = replace_all(self.html_template, template_replacements)
+        html_template: str = read_file("dirty-template.html")
+
+        template = replace_all(html_template, template_replacements)
 
         part1 = MIMEText(template, 'html')
         msg.attach(part1)

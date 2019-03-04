@@ -217,14 +217,6 @@ class Opal:
                 " Please reply if you were not expecting it."
             )
 
-        self.footer = (
-            f"\nOpal v{__version__}"
-            f"\nCurrent {self.random_member_name}: {len(self.emails)}"
-            f"\nAdjectives: {len(self.adjectives_add)}"
-            f"\nLines of Code: {len(open('opal.py').readlines())}"
-            "\nFind out more here: https://github.com/ConnorSkees/opal"
-        )
-
         if self.is_test_email:
             self.emails = self.emails_dict['debug']
 
@@ -472,7 +464,6 @@ class Opal:
             if not self.is_dry:
                 self.add_adjectives()
 
-            # self.meal.append(self.footer)
             self.meal = "\n".join(self.meal)
             self.meal = self.meal.replace("  ", " ").strip()
             if not self.is_test:
@@ -843,7 +834,7 @@ def real_meal(opal: Opal) -> None:
         print(f"{opal.line}\n{opal.meal}\n{opal.line}")
         if opal.is_test_email:
             break
-        create_csv([f"{opal.timestamp}\n{opal.meal.replace(opal.footer, '').strip()}"],
+        create_csv([f"{opal.timestamp}\n{opal.meal.strip()}"],
                    name="opal_email_archive", override=False, verbose=False)
         print("Sleeping for 1 hour...")
         time.sleep(60*60)

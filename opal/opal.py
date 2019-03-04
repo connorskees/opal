@@ -136,6 +136,9 @@ class Opal:
             | self.emails_dict['other']
         )
 
+        if self.is_test_email:
+            self.emails = self.emails_dict['debug']
+
         self.debug_email_message = ""
         if not self.is_test and self.is_test_email:
             self.debug_email_message = (
@@ -143,10 +146,9 @@ class Opal:
                 "<br />"
                 "This is a debug email."
                 " Please reply if you were not expecting it."
+                "<br />"
+                f"Sent to {self.emails}"
             )
-
-        if self.is_test_email:
-            self.emails = self.emails_dict['debug']
 
         url_date = self.now.strftime("%Y-%m-%d")
         self.base_url = f"https://udas.nutrislice.com/menu/upper-dauphin-high/lunch/"

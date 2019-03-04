@@ -94,13 +94,6 @@ class Opal:
         with open("holidays.json", mode="r", encoding="utf-8") as holiday_file:
             self.holidays = json.load(holiday_file)
 
-        self.member_names = (
-            "Members", "Followers", "Disciples",
-            "True Believers", "Enlightened Ones", "Acolytes",
-            "Righteous Ones", "Flat Earthers", "Survivors",
-            "Children", "Subscribers",
-        )
-
         self.no_lunch_nouns = (
             "Starve!", "suffer.", "nothing lol",
             # Go back to sleep and starve vine
@@ -329,11 +322,6 @@ class Opal:
         elif day <= seconds < year:
             return f"{round(seconds/(day), rounding)} days"
         return f"{round(seconds/(year), rounding)} years"
-
-    @property
-    def random_member_name(self) -> str:
-        """Return a random member name"""
-        return random.choice(self.member_names)
 
     @property
     def time_ran(self) -> str:

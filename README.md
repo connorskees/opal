@@ -11,16 +11,18 @@ Python 3.6+
 ## Usage
 #### Basic
 ##### Optional Arguments:
-* `-d, --driver DRIVER` The path to your chrome web driver.
-* `--time TIME` Time for email to be sent. Works on military time (23 is 11pm). Default is 7.
+* `-d, --driver DRIVER` The path to your chrome web driver
+* `--time TIME` Time for email to be sent. Works on military time (23 is 11pm). Default is 7
 * `--dry` The meal will be sent in minimalist form; only the words necessary to understanding the food are kept. For example, Pasta & Meat Sauce | Meatball & Mozzarella Hoagie | Green Beans | Salad | Peaches | Milk
 ##### Debug Arguments
-* `-e, --test, --today` Print today's meal to console instead of sending an email.
-* `-t, --tomorrow` Print tomorrow's meal to console instead of sending an email.
-* `-y, --yesterday` Print yesterday's meal to console instead of sending an email.
-* `-a, --add ADD` Go n number of days into the future. Can also be negative to go into the past.
+* `-e, --test, --today` Print today's meal to console instead of sending an email
+* `-t, --tomorrow` Print tomorrow's meal to console instead of sending an email
+* `-y, --yesterday` Print yesterday's meal to console instead of sending an email
+* `-a, --add ADD` Go `n` number of days into the future. Can also be negative to go into the past
 * `--custom-date [CUSTOM_DATE ...]` Print a custom date's meal to console instead of sending an email. Format: YYYY MM DD Example: --custom-date 2019 01 17
-* `--send` Send a debug email.
-* `--force [FORCE ...]` Force adjectives passed to show up in meal.
-* `--used` Show the adjectives used yesterday.
-* `--gui` Show gui when running.
+* `--send` Send meal as email
+* `--force [FORCE ...]` Force adjectives passed to show up in meal
+* `--used` Show the adjectives used yesterday
+* `--raw` Show meal as it appears on website without any cleaning
+* `--emails, --show-emails` Print email dict to console
+* `--gui` Show chrome gui when running

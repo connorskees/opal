@@ -91,7 +91,15 @@ class Opal:
             "George Lopez"
         )
 
-        with open("holidays.json", mode="r", encoding="utf-8") as holiday_file:
+        # no magic strings!
+        holidays_path = "holidays.json"
+        suffixes_remove_path = "suffixes_remove.txt"
+        adjectives_remove_path = "adjectives_remove.txt"
+        emails_path = "emails.json"
+
+        create_list = lambda path: sorted(read_file(path).split("\n"), key=len, reverse=True)
+
+        with open(holidays_path, mode="r", encoding="utf-8") as holiday_file:
             self.holidays = json.load(holiday_file)
 
         self.no_lunch_nouns = (
@@ -108,25 +116,10 @@ class Opal:
             "https://www.youtube.com/watch?v=vwaiyjh1dGk",
         )
 
-        self.suffixes_remove = (
-            'Florets', 'on a Bun', 'with Gravy', 'in a Cone',
-            'on a Stick', 'with Fresh Bread',
-            'with Lettuce, Tomato & Sauce',
-            'w/Lettuce, Tomato & Sauce'
-        )
+        self.suffixes_remove = create_list(suffixes_remove_path)
         self.suffixes_add = ()
 
-        self.adjectives_remove = (
-            "Bite Sized", "Bold", "Chilled", "Citrusy",
-            "Creamy", "Crispy", "Flavorful", "Fresh Sliced",
-            "Freshly Baked", "Garden", "Golden", "Home Style",
-            "Homestyle", "Homemade", "Juicy", "Luscious",
-            "Orange Kissed", "Oven Baked", "Baked", "Refreshing",
-            "Savory", "Seasoned", "Sliced", "Spicy", "Swedish",
-            "Tangy", "Tropical", "Warm", "Blended", "Mandarin",
-            "Roasted", "Vegetarian", "Steamed", "Soft",
-            "Mediterranean", "Citrus", "Oven", "Crisp", "Beefy",
-        )
+        self.adjectives_remove = create_list(adjectives_remove_path)
         self.adjectives_add = (
             '100% Real Beef', 'Adequate', 'Aged', 'Ambitious',
             'Antimicrobial', 'Artisinal', 'Average', 'Beefy',
@@ -188,7 +181,7 @@ class Opal:
             'Rambunctious', 'Steve Harvey\'s'
         )
 
-        with open("emails.json", mode="r", encoding="utf-8") as email_file:
+        with open(emails_path, mode="r", encoding="utf-8") as email_file:
             self.emails_dict = {key: set(value) for key, value in json.load(email_file).items()}
 
         self._validate_emails(self.emails_dict)

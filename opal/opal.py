@@ -92,10 +92,10 @@ class Opal:
         )
 
         # no magic strings!
-        holidays_path = "holidays.json"
-        suffixes_remove_path = "suffixes_remove.txt"
-        adjectives_remove_path = "adjectives_remove.txt"
-        emails_path = "emails.json"
+        holidays_path = "data/holidays.json"
+        suffixes_remove_path = "data/suffixes_remove.txt"
+        adjectives_remove_path = "data/adjectives_remove.txt"
+        emails_path = "data/emails.json"
 
         create_list = lambda path: sorted(read_file(path).split("\n"), key=len, reverse=True)
 

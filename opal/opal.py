@@ -435,6 +435,9 @@ class Opal:
             # often mispronounced :)
             "Beef Gyro": "Beef Gyro (pronounced yee-ro)",
 
+            # what
+            "Hot Sicilian Melt": "Hot Sicilian Melt (whatever that is?)",
+
             # makes no sense without colon
             "Food Fusion": "Food Fusion:",
 

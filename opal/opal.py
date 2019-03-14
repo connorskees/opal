@@ -504,7 +504,7 @@ class Opal:
                 # `adjectives_used` doesn't include adjectives_yesterday because
                 # adjectives_used is put into csv later
                 if choice in adjectives_used + adjectives_yesterday:
-                    if len(adjectives_used)+len(adjectives_yesterday) >= len(adjectives_add):
+                    if len(adjectives_used) >= len(adjectives_add)-len(adjectives_yesterday):
                         warnings.warn("There are more terms than adjectives")
                         break
                     continue

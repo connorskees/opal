@@ -200,8 +200,10 @@ class Opal:
     @staticmethod
     def _validate_emails(emails_dict: dict) -> None:
         """Validate emails in self.emails_dict. Prints emails with issues"""
-        length_exceptions = ("19foxem@kids.udasd.org",
-                             "19deibsha@kids.udasd.org")
+        length_exceptions = (
+            "19foxem@kids.udasd.org",
+            "19deibsha@kids.udasd.org",
+        )
 
         # uses `print()` instead of `warnings.warn()` because I feel it is
         # easier to immediately read which emails are invalid
@@ -484,9 +486,11 @@ class Opal:
 
     def add_adjectives(self) -> None:
         """Randomly assigns adjectives to each food item"""
-        skip = ("or", "Recipe of the Month", "\n",
-                *self.no_lunch_nouns,
-                *self.special_event_nouns)
+        skip = (
+            "or", "Recipe of the Month", "\n",
+            *self.no_lunch_nouns,
+            *self.special_event_nouns
+        )
         f_adj = self.forced_adjectives
         for holiday in self.holidays:
             if holiday in ''.join(self.meal):
@@ -528,10 +532,12 @@ class Opal:
             self.meal = self.meal.split("\n")
 
         if adjectives_used and not any((self.is_test, self.is_test_email, self.is_dry)):
-            create_csv(data=[self.timestamp]+adjectives_used,
-                       name="used_adjectives.csv",
-                       override=True,
-                       verbose=False)
+            create_csv(
+                data=[self.timestamp]+adjectives_used,
+                name="used_adjectives.csv",
+                override=True,
+                verbose=False
+            )
 
     def add_forced_adjectives(self) -> None:
         """Adds forced adjectives"""
@@ -582,19 +588,24 @@ class Opal:
         if self.email_image is not None:
             try:
                 image = MIMEImage(read_file(self.email_image))
-                image.add_header('Content-Disposition',
-                                 'attachment',
-                                 filename=os.path.basename(self.email_image))
+                image.add_header(
+                    'Content-Disposition',
+                    'attachment',
+                    filename=os.path.basename(self.email_image)
+                )
                 msg.attach(image)
             except FileNotFoundError:
-                warnings.warn('Unable to attach image because the file was not '
-                              'found.')
+                warnings.warn(
+                    'Unable to attach image because the file was not found.'
+                )
 
         if video_path is not None:
             video = MIMEAudio(read_file(video_path), _subtype=what(video_path))
-            video.add_header('Content-Disposition',
-                             'attachment',
-                             filename=os.path.basename(video_path))
+            video.add_header(
+                'Content-Disposition',
+                'attachment',
+                filename=os.path.basename(video_path)
+            )
             msg.attach(video)
 
 
@@ -626,74 +637,160 @@ def main() -> None:
     """main() function for CLI"""
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-d", "--driver", type=str, default="chromedriver.exe", dest="driver_path",
-                        help="This is the path of your chrome web driver.")
+    parser.add_argument(
+        "-d", "--driver",
+        default="chromedriver.exe",
+        dest="driver_path",
+        help="This is the path of your chrome web driver.",
+        type=str
+    )
 
-    parser.add_argument("--time", dest="start_time", default=7, type=int,
-                        help="""Hour for email to be sent at. E.g. 13 will send it
-                              at 1pm; 7 will send it at 7am""")
+    parser.add_argument(
+        "--time",
+        default=7,
+        dest="start_time",
+        help=(
+            "Hour for email to be sent at. "
+            "E.g. 13 will send it at 1pm; 7 will send it at 7am"
+        ),
+        type=int
+    )
 
-    parser.add_argument("--dry", action="store_true", default=False, dest="is_dry",
-                        help=("The meal will be sent in minimalist form; only "
-                              "the words necessary to understanding the food are "
-                              "kept. (e.g. Pasta & Meat Sauce | Meatball & "
-                              "Mozzarella Hoagie | Green Beans | Salad | Peaches "
-                              "| Milk)"))
+    parser.add_argument(
+        "--dry",
+        action="store_true",
+        default=False,
+        dest="is_dry",
+        help=(
+            "The meal will be sent in minimalist form; only "
+            "the words necessary to understanding the food are "
+            "kept. (e.g. Pasta & Meat Sauce | Meatball & "
+            "Mozzarella Hoagie | Green Beans | Salad | Peaches "
+            "| Milk)"
+        )
+    )
 
     ########################### DEBUG ###########################
 
-    parser.add_argument("-e", "--test", "--today", action="store_true", default=False,
-                        dest="is_test",
-                        help="Print today's meal to console instead of sending an email.")
+    parser.add_argument(
+        "-e", "--test", "--today",
+        action="store_true",
+        default=False,
+        dest="is_test",
+        help="Print today's meal to console instead of sending an email."
+    )
 
-    parser.add_argument("-t", "--tomorrow", action="store_true", default=False, dest="is_tomorrow",
-                        help="""Print tomorrow's meal to console instead of sending an email.
-                             Basically a shortcut subclass of --custom-date but it's
-                             always 1 day in the future.""")
+    parser.add_argument(
+        "-t", "--tomorrow",
+        action="store_true",
+        default=False,
+        dest="is_tomorrow",
+        help=(
+            "Print tomorrow's meal to console instead of sending an email. "
+            "Basically a shortcut subclass of --custom-date but it's always "
+            "1 day in the future."
+        )
+    )
 
-    parser.add_argument("-y", "--yesterday", action="store_true", default=False,
-                        dest="is_yesterday",
-                        help="""Print yesterday's meal to console instead of sending an email.
-                             Basically a shortcut subclass of --custom-date but it's
-                             always 1 day in the past.""")
+    parser.add_argument(
+        "-y", "--yesterday",
+        action="store_true",
+        default=False,
+        dest="is_yesterday",
+        help=(
+            "Print yesterday's meal to console instead of sending an email. "
+            "Basically a shortcut subclass of --custom-date but it's always "
+            "1 day in the past."
+        )
+    )
 
-    parser.add_argument("-a", "--add", type=int, default=None, dest="add_days",
-                        help="""Go n number of days into the future. Can also be
-                                negative to go into the past""")
+    parser.add_argument(
+        "-a", "--add",
+        default=None,
+        dest="add_days",
+        help=(
+            "Go n number of days into the future. Can also be negative to "
+            "go into the past"
+        ),
+        type=int
+    )
 
-    parser.add_argument("--custom-date", "--custom_date", nargs="+", dest="custom_date",
-                        default=None, type=int,
-                        help="""Print a custom date's meal to console instead of
-                                sending an email. Format: YYYY MM DD Example:
-                                --custom-date 2019 01 17""")
+    parser.add_argument(
+        "--custom-date", "--custom_date",
+        default=None,
+        dest="custom_date",
+        help=(
+            "Print a custom date's meal to console instead of sending an email."
+            " Format: YYYY MM DD Example: --custom-date 2019 01 17"
+        ),
+        nargs="+",
+        type=int
+    )
 
-    parser.add_argument("--force", nargs="+", dest="forced_adjectives",
-                        default=None, type=str,
-                        help="""Force the adjectives for the coming day""")
+    parser.add_argument(
+        "--force",
+        default=None,
+        dest="forced_adjectives",
+        help="Force the adjectives for the coming day",
+        nargs="+",
+        type=str
+    )
 
-    parser.add_argument("--send", action="store_true", dest="is_test_email",
-                        default=False, help="Send a debug email.")
+    parser.add_argument(
+        "--send",
+        action="store_true",
+        default=False,
+        dest="is_test_email",
+        help="Send a debug email."
+    )
 
-    parser.add_argument("--used", "--show-used", "--used-adjectives",
-                        action="store_true", default=False, dest="show_used",
-                        help="Show the adjectives used yesterday.")
+    parser.add_argument(
+        "--used", "--show-used", "--used-adjectives",
+        action="store_true",
+        default=False,
+        dest="show_used",
+        help="Show the adjectives used yesterday."
+    )
 
-    parser.add_argument("--emails", "--show-emails", action="store_true",
-                        default=False, dest="show_emails",
-                        help="Print email dict to console.")
+    parser.add_argument(
+        "--emails", "--show-emails",
+        action="store_true",
+        default=False,
+        dest="show_emails",
+        help="Print email dict to console."
+    )
 
-    parser.add_argument("--test-adjectives", action="store_true",
-                        default=False, dest="test_adjectives",
-                        help="Test all adjectives against noun.")
+    parser.add_argument(
+        "--test-adjectives",
+        action="store_true",
+        default=False,
+        dest="test_adjectives",
+        help="Test all adjectives against noun."
+    )
 
-    parser.add_argument("--gui", action="store_true", default=False, dest="gui",
-                        help="Show gui when running.")
+    parser.add_argument(
+        "--gui",
+        action="store_true",
+        default=False,
+        dest="gui",
+        help="Show gui when running."
+    )
 
-    parser.add_argument("--delay", action="store_true", default=False,
-                        dest="is_two_hour_delay", help="Show gui when running.")
+    parser.add_argument(
+        "--delay",
+        action="store_true",
+        default=False,
+        dest="is_two_hour_delay",
+        help="Show gui when running."
+    )
 
-    parser.add_argument("--raw", action="store_true", default=False,
-                        dest="is_raw", help="Give raw meal with no edits.")
+    parser.add_argument(
+        "--raw",
+        action="store_true",
+        default=False,
+        dest="is_raw",
+        help="Give raw meal with no edits."
+    )
 
     args = parser.parse_args()
     sys.stdout.write(str(handle_args(args)))
@@ -762,8 +859,12 @@ def real_meal(opal: Opal) -> None:
         print(f"{opal.line}\n{opal.meal}\n{opal.line}")
         if opal.is_test_email:
             break
-        create_csv([f"{opal.timestamp}\n{opal.meal.strip()}"],
-                   name="opal_email_archive", override=False, verbose=False)
+        create_csv(
+            [f"{opal.timestamp}\n{opal.meal.strip()}"],
+            name="opal_email_archive",
+            override=False,
+            verbose=False
+        )
         print("Sleeping for 1 hour...")
         time.sleep(60*60)
 

@@ -31,20 +31,22 @@ __version__ = "4.2.0"
 
 class Opal:
     """Visits menu hosted online; finds, validates, and cleans meal"""
-    def __init__(self,
-                 driver_path: str,
-                 start_time: int,
-                 is_dry: bool,
-                 is_test: bool,
-                 is_tomorrow: bool,
-                 is_yesterday: bool,
-                 add_days: Optional[int],
-                 custom_date: Optional[Tuple[str, str, str]],
-                 forced_adjectives: Optional[List[str]],
-                 is_test_email: bool,
-                 gui: bool,
-                 is_two_hour_delay: bool,
-                 is_raw: bool) -> None:
+    def __init__(
+            self,
+            driver_path: str,
+            start_time: int,
+            is_dry: bool,
+            is_test: bool,
+            is_tomorrow: bool,
+            is_yesterday: bool,
+            add_days: Optional[int],
+            custom_date: Optional[Tuple[str, str, str]],
+            forced_adjectives: Optional[List[str]],
+            is_test_email: bool,
+            gui: bool,
+            is_two_hour_delay: bool,
+            is_raw: bool
+        ) -> None:
 
         self.start = time.time()
 
